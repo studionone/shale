@@ -1,5 +1,5 @@
 <?php
-namespace Schale\Bridge\Silex;
+namespace Schale\Bridge\Silex\Provider;
 
 use Silex\{Application, ServiceProviderInterface};
 use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
@@ -39,7 +39,7 @@ class AnnotationServiceProvider implements ServiceProviderInterface
          * valid for annotating within that file.
          */
         AnnotationRegistry::registerLoader(function($baseClassname) {
-            $baseDir = __DIR__ . '/Annotation';
+            $baseDir = __DIR__ . '/../../../Annotation';
             $classname = ltrim($baseClassname, '\\');
 
             // Checks we're using the correct FQCN

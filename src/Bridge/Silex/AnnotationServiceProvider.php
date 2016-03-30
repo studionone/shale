@@ -1,5 +1,5 @@
 <?php
-namespace Schale\Integration\Silex;
+namespace Schale\Bridge\Silex;
 
 use Silex\{Application, ServiceProviderInterface};
 use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};

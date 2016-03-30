@@ -1,0 +1,46 @@
+
+
+#
+# Files and directories anywhere in the repo
+#
+
+# Generic OS and IDE files and directories
+.DS_Store
+.idea
+.padawan
+.netbeans.xml
+nbproject
+
+# Logs, test output, etc
+npm-debug.log
+coverage-report.html
+
+#
+# Specific files in the repo
+#
+/.up.state
+
+#
+# Specific directories in the repo
+#
+/vendor/*
+
+#
+# Ignore the contents of various logs directories... except for the
+# .gitkeep files which ensures they exist.
+#
+/tests/logs/*
+
+#
+# Make an exception for .gitkeep files. This lets us use a .gitkeep file
+# to create directories which we need to exist, but ignore the rest of
+# the contents of the directory.
+#
+# For example, /code/app/logs/ needs to exist, and so contains a
+# .gitkeep file. But we don't want git to track the individual log files
+# in that directory.
+#
+# This must be last, so it overrides the more general ignore lines
+# above.
+#
+!.gitkeep

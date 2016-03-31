@@ -13,7 +13,6 @@ nbproject
 
 # Logs, test output, etc
 npm-debug.log
-coverage-report.html
 
 #
 # Specific files in the repo
@@ -24,6 +23,7 @@ coverage-report.html
 # Specific directories in the repo
 #
 /vendor/*
+/tests/coverage/*
 
 #
 # Ignore the contents of various logs directories... except for the

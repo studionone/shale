@@ -4,7 +4,7 @@ namespace Schale\Schema\Type;
 use Schale\Exception\Schema\DataWasWrongTypeException;
 use Schale\Interfaces\Schema\SchemaTypeInterface;
 use Schale\Schema\TypeRegistry;
-use Flint\Accessors;
+use Schale\Traits\Accessors;
 
 /**
  * @method string getTypeFieldName

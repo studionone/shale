@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Schale\Schema;
 
-use Flint\Accessors;
+use Schale\Traits\Accessors;
 use Schale\Exception\Schema\{
     DataDecodeException,
     RequiredPropertyWasNullException

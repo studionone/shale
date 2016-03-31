@@ -5,13 +5,13 @@ use ReflectionClass;
 use ReflectionProperty;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 
-use Schema\Exception\Schema\LoadSchemaException;
-use Schema\Interfaces\Annotation\{
+use Schale\Exception\Schema\LoadSchemaException;
+use Schale\Interfaces\Annotation\{
     ClassSchemaAnnotationInterface,
     PropertySchemaAnnotationInterface
 };
-use Schema\Interfaces\Schema\SchemaTypeInterface;
-use Schema\Schema;
+use Schale\Interfaces\Schema\SchemaTypeInterface;
+use Schale\Schema;
 
 /**
  * @Annotation

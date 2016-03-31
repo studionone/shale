@@ -1,10 +1,13 @@
 <?php
 
-use Flint\Config;
-use Flint\ServiceParser;
-use ExampleProject\ExampleApp;
+use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
 
+use Schale\Schema\Type\StringPrimitive;
+use Schale\Schema\Type\NumberPrimitive;
+use Schale\Schema\TypeRegistry;
+use Schale\Schema\Engine;
 use Schale\Interfaces\Schema\SchemaTypeInterface;
+use Schale\AnnotationLoader;
 
 // These are used in assertions for readability
 const IS_REQUIRED = true;
@@ -14,20 +17,29 @@ const DO_NOT_QUOTE_VALUES = false;
 
 class SchemaTest extends PHPUnit_Framework_TestCase
 {
-    public $app;
-    public $modelFqcns;
+    public $stringPrimitive;
+    public $numberPrimitive;
+    public $typeRegistry;
+    public $annotationReader;
+    public $schemaEngine;
 
     public function setUp()
     {
-        ExampleApp::destroyInstance();
+        $this->stringPrimitive = new StringPrimitive();
+        $this->numberPrimitive = new NumberPrimitive();
 
-        $config = Config::getInstance()->load(__DIR__ . "/config/config.php");
+        $this->typeRegistry = new TypeRegistry(
+            $this->stringPrimitive,
+            $this->numberPrimitive);
 
-        $this->app = ExampleApp::getInstance($config);
-        $this->app->setupServicesAndConfig();
-        $this->app->init();
+        $this->annotationReader = new AnnotationReader();
 
-        $this->schemaEngine = $this->app['engine.schema'];
+        $this->schemaEngine = new Engine(
+            $this->typeRegistry,
+            $this->annotationReader);
+
+        $annotationLoader = new AnnotationLoader();
+        AnnotationRegistry::registerLoader([$annotationLoader, 'load']);
     }
 
     /**
@@ -35,7 +47,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      */
     public function testTagModel()
     {
-        $rootModelFqcn = 'Example\\Test\\Mock\\Model\\TagModel';
+        $rootModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\TagModel';
 
         $this->schemaEngine->loadSchemaForModels([$rootModelFqcn]);
         $schemas = $this->schemaEngine->getAllModelSchemas();
@@ -68,8 +80,8 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      */
     public function testArticleModel()
     {
-        $tagModelFqcn = 'Example\\Test\\Mock\\Model\\TagModel';
-        $articleModelFqcn = 'Example\\Test\\Mock\\Model\\Module\\ArticleModel';
+        $tagModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\TagModel';
+        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
         $modelFqcns = [$articleModelFqcn, $tagModelFqcn];
 
         $this->schemaEngine->loadSchemaForModels($modelFqcns);
@@ -119,8 +131,8 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      */
     public function testPayloadModel()
     {
-        $payloadModelFqcn = 'Example\\Test\\Mock\\Model\\PayloadModel';
-        $bannerModelFqcn = 'Example\\Test\\Mock\\Model\\BannerModel';
+        $payloadModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\PayloadModel';
+        $bannerModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\BannerModel';
         $modelFqcns = [
             $payloadModelFqcn,
             $bannerModelFqcn,
@@ -163,16 +175,16 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      * We throw an exception on this as it's almost certainly a sign
      * that developer has forgotten something.
      *
-     * In practice this means that every class under Example\Model\ must
-     * have a Model annotation, since our live app configuration tries
-     * to load every class within that namespace.
+     * In practice this means that every class under your project's
+     * Model namespace must have a Model annotation, since Schale will
+     * try to load every class within that namespace.
      *
-     * @expectedException Example\Exception\Schema\LoadSchemaException
+     * @expectedException Schale\Exception\Schema\LoadSchemaException
      */
     public function testModelMissingModelAnnotation()
     {
         $modelMissingModelAnnotationFqcn =
-            'Example\\Test\\Mock\\BrokenModel\\ModelMissingModelAnnotation';
+            'Schale\\Test\\Support\\Mock\\BrokenModel\\ModelMissingModelAnnotation';
         $modelFqcns = [$modelMissingModelAnnotationFqcn];
         $this->schemaEngine->loadSchemaForModels($modelFqcns);
     }
@@ -189,12 +201,12 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      * since multiple annotations is almost certainly a sign that a
      * developer's made a terrible mistake.
      *
-     * @expectedException Example\Exception\Schema\LoadSchemaException
+     * @expectedException Schale\Exception\Schema\LoadSchemaException
      */
     public function testModelWithTooManyModelAnnotations()
     {
         $modelWithTooManyModelAnnotations =
-            'Example\\Test\\Mock\\BrokenModel\\ModelWithTooManyModelAnnotations';
+            'Schale\\Test\\Support\\Mock\\BrokenModel\\ModelWithTooManyModelAnnotations';
         $modelFqcns = [$modelWithTooManyModelAnnotations];
         $this->schemaEngine->loadSchemaForModels($modelFqcns);
     }
@@ -214,7 +226,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase
     public function testModelWithUnannotatedProperty()
     {
         $modelWithUnannotatedProperty =
-            'Example\\Test\\Mock\\Model\\ModelWithUnannotatedProperty';
+            'Schale\\Test\\Support\\Mock\\Model\\ModelWithUnannotatedProperty';
         $modelFqcns = [$modelWithUnannotatedProperty];
 
         $this->schemaEngine->loadSchemaForModels($modelFqcns);
@@ -248,12 +260,12 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      * since multiple annotations is almost certainly a sign that a
      * developer's made a terrible mistake.
      *
-     * @expectedException Example\Exception\Schema\LoadSchemaException
+     * @expectedException Schale\Exception\Schema\LoadSchemaException
      */
     public function testModelWithTooManyPropertyAnnotations()
     {
         $modelWithTooManyPropertyAnnotations =
-            'Example\\Test\\Mock\\BrokenModel\\ModelWithTooManyPropertyAnnotations';
+            'Schale\\Test\\Support\\Mock\\BrokenModel\\ModelWithTooManyPropertyAnnotations';
         $modelFqcns = [$modelWithTooManyPropertyAnnotations];
         $this->schemaEngine->loadSchemaForModels($modelFqcns);
     }

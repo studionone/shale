@@ -19,7 +19,7 @@
     "autoload": {
         "psr-4": {
             "Schale\\": "src",
-            "Schale\\Tests\\": "tests"
+            "Schale\\Test\\Support\\": "tests/support"
         }
     },
     "scripts": {

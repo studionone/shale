@@ -1,0 +1,19 @@
+{
+    "status": 200,
+    "message": "OK",
+    "payload": {
+        "modules": [
+            {
+                "id": 1001,
+                "type": "article_module",
+                "regionId": "2001",
+                "tags": [
+                    {
+                        "id": 6001,
+                        "name": "beach"
+                    }
+                ]
+            }
+        ]
+    }
+}

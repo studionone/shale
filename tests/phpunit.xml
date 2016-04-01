@@ -1,0 +1,21 @@
+<phpunit
+    bootstrap="bootstrap.php">
+    <testsuites>
+        <testsuite name="unit">
+            <directory>unit</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory>integration</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true" addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../src</directory>
+        </whitelist>
+        <blacklist>
+            <directory suffix=".php">../vendor</directory>
+            <directory suffix=".php">unit</directory>
+            <directory suffix=".php">integration</directory>
+        </blacklist>
+    </filter>
+</phpunit>

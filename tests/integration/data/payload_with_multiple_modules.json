@@ -1,0 +1,25 @@
+{
+    "modules": [
+        {
+            "id": 1004,
+            "type": "article_module",
+            "regionId": "2006",
+            "tags": [
+                {
+                    "id": 6001,
+                    "name": "beach"
+                }
+            ]
+        },
+        {
+            "id": 6004,
+            "type": "tag",
+            "name": "forest"
+        },
+        {
+            "id": 6006,
+            "type": "tag",
+            "name": "pub"
+        }
+    ]
+}

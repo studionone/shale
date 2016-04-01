@@ -1,0 +1,18 @@
+{
+    "id": 1003,
+    "regionId": "2005",
+    "tags": [
+        {
+            "id": 6001,
+            "name": "beach"
+        },
+        {
+            "id": 6002,
+            "name": "summer"
+        },
+        {
+            "id": 6017,
+            "name": "colorful"
+        }
+    ]
+}

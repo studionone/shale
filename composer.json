@@ -1,6 +1,12 @@
 {
     "name": "studionone/schale",
     "version": "0.1.0",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/studionone/schale.git"
+        }
+    ],
     "require": {
         "php": ">=7.0.0",
         "doctrine/annotations": "^1.2"

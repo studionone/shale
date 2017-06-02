@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
-namespace Schale\Annotation;
+namespace Shale\Annotation;
 
 use ReflectionClass;
 use ReflectionProperty;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 
-use Schale\Exception\Schema\LoadSchemaException;
-use Schale\Interfaces\Annotation\{
+use Shale\Exception\Schema\LoadSchemaException;
+use Shale\Interfaces\Annotation\{
     ClassSchemaAnnotationInterface,
     PropertySchemaAnnotationInterface
 };
-use Schale\Interfaces\Schema\SchemaTypeInterface;
-use Schale\Schema;
+use Shale\Interfaces\Schema\SchemaTypeInterface;
+use Shale\Schema;
 
 /**
  * @Annotation

@@ -1,5 +1,5 @@
 <?php
-namespace Schale\Exception\Schema;
+namespace Shale\Exception\Schema;
 
 class LoadSchemaException extends SchemaException
 {

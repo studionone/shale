@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Schale;
+namespace Shale;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
@@ -36,8 +36,8 @@ class AnnotationLoader
          * (the default behaviour).
          *
          * This is used by the loader to map the base FQCN for built-in
-         * Schale annotations (ie 'Schale\Annotation\') to the actual
-         * on-disk path of the 'Annotation' directory in the Schale
+         * Shale annotations (ie 'Schale\Annotation\') to the actual
+         * on-disk path of the 'Annotation' directory in the Shale
          * package (eg '.../vendor/studionone/schale/src/Annotation/').
          *
          * Depending on other options, the loader may actually require
@@ -45,7 +45,7 @@ class AnnotationLoader
          * if the annotation FQCN is within a known annotation
          * namespace.
          */
-        return ['Schale\\Annotation\\', __DIR__ . '/Annotation'];
+        return ['Shale\\Annotation\\', __DIR__ . '/Annotation'];
     }
     
     public function __construct(
@@ -80,7 +80,7 @@ class AnnotationLoader
      *
      * The full-qualification of names may be derived based on "use"
      * statements in the file where the annotation is used. eg if a class
-     * file has "use Schale\Annotation;", then Annotation\Model will be
+     * file has "use Shale\Annotation;", then Annotation\Model will be
      * valid for annotating within that file.
      */
     public function load($baseClassname)

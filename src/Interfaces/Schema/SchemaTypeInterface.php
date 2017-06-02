@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Interfaces\Schema;
+namespace Shale\Interfaces\Schema;
 
-use Schale\Schema\TypeRegistry;
+use Shale\Schema\TypeRegistry;
 
 interface SchemaTypeInterface
 {

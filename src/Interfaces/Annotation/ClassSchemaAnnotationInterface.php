@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Interfaces\Annotation;
+namespace Shale\Interfaces\Annotation;
 
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
-use Schale\Interfaces\Schema\SchemaTypeInterface;
+use Shale\Interfaces\Schema\SchemaTypeInterface;
 
 interface ClassSchemaAnnotationInterface
 {

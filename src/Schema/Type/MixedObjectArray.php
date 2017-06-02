@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema\Type;
+namespace Shale\Schema\Type;
 
-use Schale\Exception\Schema\DataWasWrongTypeException;
-use Schale\Interfaces\Schema\SchemaTypeInterface;
-use Schale\Schema\TypeRegistry;
-use Schale\Traits\Accessors;
+use Shale\Exception\Schema\DataWasWrongTypeException;
+use Shale\Interfaces\Schema\SchemaTypeInterface;
+use Shale\Schema\TypeRegistry;
+use Shale\Traits\Accessors;
 
 /**
  * @method string getTypeFieldName

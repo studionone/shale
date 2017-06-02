@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema\Type;
+namespace Shale\Schema\Type;
 
-use Schale\Exception\Schema\DataWasWrongTypeException;
-use Schale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Schale\Schema\TypeRegistry;
+use Shale\Exception\Schema\DataWasWrongTypeException;
+use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
+use Shale\Schema\TypeRegistry;
 
 class NumberPrimitive implements SchemaNamedTypeInterface
 {

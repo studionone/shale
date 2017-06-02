@@ -1,9 +1,9 @@
 <?php
-namespace Schale\Bridge\Silex\Provider;
+namespace Shale\Bridge\Silex\Provider;
 
 use Silex\{Application, ServiceProviderInterface};
 use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
-use Schale\AnnotationLoader;
+use Shale\AnnotationLoader;
 
 /**
  * Register our annotations for use.
@@ -13,7 +13,7 @@ use Schale\AnnotationLoader;
  * We're using Doctrine\Common's annotation system. For documentation,
  * see http://doctrine-common.readthedocs.org/en/latest/reference/annotations.html
  *
- * For the annotation classes themselves, see Schale\Annotation\.
+ * For the annotation classes themselves, see Shale\Annotation\.
  */
 class AnnotationServiceProvider implements ServiceProviderInterface
 {

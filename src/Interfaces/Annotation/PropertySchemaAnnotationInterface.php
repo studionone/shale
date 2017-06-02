@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace Schale\Interfaces\Annotation;
+namespace Shale\Interfaces\Annotation;
 
-use Schale\Interfaces\Schema\SchemaInterface;
+use Shale\Interfaces\Schema\SchemaInterface;
 
 interface PropertySchemaAnnotationInterface
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Traits;
+namespace Shale\Traits;
 
 use BadMethodCallException,
     InvalidArgumentException;

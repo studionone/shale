@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema\Type;
+namespace Shale\Schema\Type;
 
-use Schale\Exception\Schema\DataWasWrongTypeException;
-use Schale\Interfaces\Schema\SchemaTypeInterface;
-use Schale\Interfaces\Schema\SchemaTypeWithTypedItemsInterface;
-use Schale\Schema\TypeRegistry;
+use Shale\Exception\Schema\DataWasWrongTypeException;
+use Shale\Interfaces\Schema\SchemaTypeInterface;
+use Shale\Interfaces\Schema\SchemaTypeWithTypedItemsInterface;
+use Shale\Schema\TypeRegistry;
 
 /**
  *

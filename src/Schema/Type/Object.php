@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema\Type;
+namespace Shale\Schema\Type;
 
-use Schale\Exception\Schema\{
+use Shale\Exception\Schema\{
     DataWasWrongTypeException,
     DataDecodeException,
     RequiredPropertyMissingException
 };
-use Schale\Interfaces\Schema\{SchemaInterface,SchemaNamedTypeInterface};
-use Schale\Schema\TypeRegistry;
+use Shale\Interfaces\Schema\{SchemaInterface,SchemaNamedTypeInterface};
+use Shale\Schema\TypeRegistry;
 use ReflectionClass;
 use stdClass;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Schema;
+namespace Shale\Schema;
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -11,11 +11,11 @@ use RegexIterator;
  * all classes in a directory.
  *
  * This is just a helper class for convenience, as almost any code using
- * Schale will likely need something like this for use with
+ * Shale will likely need something like this for use with
  * $schemaEngine->loadSchemaForModels([..]). The alternative is manually
  * enumerating each model class's FQCN.
  *
- * This is unrelated to the Schale\AnnotationLoader class.
+ * This is unrelated to the Shale\AnnotationLoader class.
  */
 class FqcnLoader
 {

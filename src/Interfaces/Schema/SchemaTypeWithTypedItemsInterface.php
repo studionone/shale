@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Schale\Interfaces\Schema;
+namespace Shale\Interfaces\Schema;
 
 interface SchemaTypeWithTypedItemsInterface extends SchemaTypeInterface
 {

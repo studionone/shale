@@ -1,10 +1,11 @@
 {
-    "name": "studionone/schale",
-    "version": "0.1.0",
+    "name": "studionone/shale",
+    "description": "A PHP schema system for (de)serializing JSON and other transports",
+    "version": "0.2.0",
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/studionone/schale.git"
+            "url": "https://github.com/studionone/shale.git"
         }
     ],
     "require": {
@@ -18,8 +19,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Schale\\": "src",
-            "Schale\\Test\\Support\\": "tests/support"
+            "Shale\\": "src",
+            "Shale\\Test\\Support\\": "tests/support"
         }
     },
     "scripts": {

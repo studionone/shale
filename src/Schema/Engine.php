@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema;
+namespace Shale\Schema;
 
 use ReflectionClass;
 use ReflectionProperty;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
-use Schale\Interfaces\Annotation\ClassSchemaAnnotationInterface;
-use Schale\Interfaces\Schema\SchemaTypeWithTypedItemsInterface;
-use Schale\Exception\Schema\LoadSchemaException;
+use Shale\Interfaces\Annotation\ClassSchemaAnnotationInterface;
+use Shale\Interfaces\Schema\SchemaTypeWithTypedItemsInterface;
+use Shale\Exception\Schema\LoadSchemaException;
 
 class Engine
 {

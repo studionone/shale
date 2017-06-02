@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema;
+namespace Shale\Schema;
 
-use Schale\Traits\Accessors;
-use Schale\Exception\Schema\{
+use Shale\Traits\Accessors;
+use Shale\Exception\Schema\{
     DataDecodeException,
     RequiredPropertyWasNullException
 };
-use Schale\Interfaces\Schema\{SchemaInterface,SchemaTypeInterface};
-use Schale\Schema\TypeRegistry;
+use Shale\Interfaces\Schema\{SchemaInterface,SchemaTypeInterface};
+use Shale\Schema\TypeRegistry;
 
 /**
  *

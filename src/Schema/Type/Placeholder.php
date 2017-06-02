@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace Schale\Schema\Type;
+namespace Shale\Schema\Type;
 
-use Schale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Schale\Schema\TypeRegistry;
+use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
+use Shale\Schema\TypeRegistry;
 use DomainException;
 
 class Placeholder implements SchemaNamedTypeInterface

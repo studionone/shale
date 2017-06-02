@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Schale\Annotation;
+namespace Shale\Annotation;
 
-use Schale\Interfaces\Schema\SchemaInterface;
-use Schale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
-use Schale\Schema;
+use Shale\Interfaces\Schema\SchemaInterface;
+use Shale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
+use Shale\Schema;
 
 /**
  * @Annotation

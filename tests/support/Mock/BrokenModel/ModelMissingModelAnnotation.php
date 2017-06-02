@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Test\Support\Mock\BrokenModel;
+namespace Shale\Test\Support\Mock\BrokenModel;
 
 /**
  * This is a model class which has no Model annotation.

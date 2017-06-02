@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Test\Support\Mock\Model\Module;
+namespace Shale\Test\Support\Mock\Model\Module;
 
-use Schale\Annotation;
-use Schale\Traits\Accessors;
+use Shale\Annotation;
+use Shale\Traits\Accessors;
 
 /**
  * @Annotation\Model(name="article_module")

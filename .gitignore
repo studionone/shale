@@ -15,11 +15,6 @@ nbproject
 npm-debug.log
 
 #
-# Specific files in the repo
-#
-/.up.state
-
-#
 # Specific directories in the repo
 #
 /vendor/*

@@ -2,13 +2,13 @@
 
 use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
 
-use Schale\Schema\Type\StringPrimitive;
-use Schale\Schema\Type\NumberPrimitive;
-use Schale\Schema\TypeRegistry;
-use Schale\Schema\Engine;
-use Schale\Schema\FqcnLoader;
-use Schale\Interfaces\Schema\SchemaTypeInterface;
-use Schale\AnnotationLoader;
+use Shale\Schema\Type\StringPrimitive;
+use Shale\Schema\Type\NumberPrimitive;
+use Shale\Schema\TypeRegistry;
+use Shale\Schema\Engine;
+use Shale\Schema\FqcnLoader;
+use Shale\Interfaces\Schema\SchemaTypeInterface;
+use Shale\AnnotationLoader;
 
 class ModelInstantiationTest extends PHPUnit_Framework_TestCase
 {
@@ -64,7 +64,7 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'sample_tag_object.json');
-        $rootModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\TagModel';
+        $rootModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\TagModel';
 
         $modelInstance = $this
             ->schemaEngine
@@ -91,7 +91,7 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'reduced_sample_article_response_001.json');
-        $responseModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\ResponseModel';
+        $responseModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\ResponseModel';
 
         $modelInstance = $this
             ->schemaEngine
@@ -105,7 +105,7 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
 
         // Response should have a payload of PayloadModel instance)
         $payload = $modelInstance->getPayload();
-        $this->assertInstanceOf('Schale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
+        $this->assertInstanceOf('Shale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
 
         // Payload should have a modules array, with exactly 1 item
         $modules = $payload->getModules();
@@ -114,7 +114,7 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
         // The item should be an article module (ArticleModel instance)
         $article = $modules[0];
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
+            'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
         // Article's ID and region ID should have certain values
         $this->assertEquals(1001, $article->getId());
         $this->assertEquals("2001", $article->getRegionId());
@@ -138,13 +138,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_empty_tags.json');
-        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
+        $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
 
         $article = $this
             ->schemaEngine
             ->createModelInstanceFromData($articleModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
+            'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
 
         // Article's ID and region ID should have certain values
         $this->assertEquals(1004, $article->getId());
@@ -166,13 +166,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_multiple_tags.json');
-        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
+        $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
 
         $article = $this
             ->schemaEngine
             ->createModelInstanceFromData($articleModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
+            'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
 
         // Article's ID and region ID should have certain values
         $this->assertEquals(1003, $article->getId());
@@ -202,13 +202,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'payload_with_no_modules.json');
-        $payloadModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\PayloadModel';
+        $payloadModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\PayloadModel';
 
         $payload = $this
             ->schemaEngine
             ->createModelInstanceFromData($payloadModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
+            'Shale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
 
         // Payload's "modules" list should be empty
         $modules = $payload->getModules();
@@ -230,13 +230,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'payload_with_multiple_modules.json');
-        $payloadModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\PayloadModel';
+        $payloadModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\PayloadModel';
 
         $payload = $this
             ->schemaEngine
             ->createModelInstanceFromData($payloadModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
+            'Shale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
 
         // Payload's "modules" list should contain 3 objects
         $modules = $payload->getModules();
@@ -244,17 +244,17 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
 
         // First object should be an article module
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel',
+            'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel',
             $modules[0]);
         $this->assertEquals(1004, $modules[0]->getId());
         // Second should be a tag object
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\TagModel',
+            'Shale\\Test\\Support\\Mock\\Model\\TagModel',
             $modules[1]);
         $this->assertEquals(6004, $modules[1]->getId());
         // Third should be a tag object
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\TagModel',
+            'Shale\\Test\\Support\\Mock\\Model\\TagModel',
             $modules[2]);
         $this->assertEquals(6006, $modules[2]->getId());
     }
@@ -270,13 +270,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'payload_with_empty_model_object.json');
-        $payloadModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\PayloadModel';
+        $payloadModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\PayloadModel';
 
         $payload = $this
             ->schemaEngine
             ->createModelInstanceFromData($payloadModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
+            'Shale\\Test\\Support\\Mock\\Model\\PayloadModel', $payload);
 
         // Payload's "modules" list should contain 1 object
         $modules = $payload->getModules();
@@ -284,19 +284,19 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
 
         // The single object should be an EmptyModel instance
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\EmptyModel',
+            'Shale\\Test\\Support\\Mock\\Model\\EmptyModel',
             $modules[0]);
     }
 
     /**
      *
-     * @expectedException Schale\Exception\Schema\RequiredPropertyMissingException
+     * @expectedException Shale\Exception\Schema\RequiredPropertyMissingException
      */
     public function testObjectWithRequiredPropertyNotGiven()
     {
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_no_id.json');
-        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
+        $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
 
         $article = $this
             ->schemaEngine
@@ -305,13 +305,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
 
     /**
      *
-     * @expectedException Schale\Exception\Schema\RequiredPropertyWasNullException
+     * @expectedException Shale\Exception\Schema\RequiredPropertyWasNullException
      */
     public function testObjectWithRequiredPropertySetToNull()
     {
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_id_set_to_null.json');
-        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
+        $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
 
         $article = $this
             ->schemaEngine
@@ -325,13 +325,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_no_regionId.json');
-        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
+        $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
 
         $article = $this
             ->schemaEngine
             ->createModelInstanceFromData($articleModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
+            'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
 
         // Article's ID should have a value
         $this->assertEquals("1003", $article->getId());
@@ -351,13 +351,13 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
     {
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_regionId_set_to_null.json');
-        $articleModelFqcn = 'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
+        $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
 
         $article = $this
             ->schemaEngine
             ->createModelInstanceFromData($articleModelFqcn, $jsonData);
         $this->assertInstanceOf(
-            'Schale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
+            'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel', $article);
 
         // Article's ID should have a value
         $this->assertEquals(1003, $article->getId());

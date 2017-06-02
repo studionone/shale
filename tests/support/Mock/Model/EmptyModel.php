@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Schale\Test\Support\Mock\Model;
+namespace Shale\Test\Support\Mock\Model;
 
-use Schale\Annotation;
+use Shale\Annotation;
 
 /**
  * @Annotation\Model(name="empty")

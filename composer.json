@@ -1,6 +1,6 @@
 {
-    "name": "studionone/schale",
-    "version": "0.1.0",
+    "name": "studionone/shale",
+    "version": "0.2.0",
     "repositories": [
         {
             "type": "vcs",
@@ -18,8 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Schale\\": "src",
-            "Schale\\Test\\Support\\": "tests/support"
+            "Shale\\": "src",
+            "Shale\\Test\\Support\\": "tests/support"
         }
     },
     "scripts": {

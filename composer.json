@@ -2,6 +2,18 @@
     "name": "studionone/shale",
     "description": "A PHP schema system for (de)serializing JSON and other transports",
     "version": "0.2.0",
+    "keywords": ["serialization", "json"],
+    "homepage": "https://github.com/studionone/shale",
+    "license": "MIT",
+    "authors":
+        [
+            {
+                "name": "Studio None",
+                "email": "developers@studionone.com.au",
+                "homepage": "http://studionone.com.au",
+                "role": "Developer"
+            }
+        ],
     "repositories": [
         {
             "type": "vcs",

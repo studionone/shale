@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
@@ -9,7 +10,7 @@ class Placeholder implements SchemaNamedTypeInterface
 {
     protected $typeName;
 
-    public function __construct($typeName)
+    public function __construct(string $typeName)
     {
         $this->typeName = $typeName;
     }
@@ -20,6 +21,11 @@ class Placeholder implements SchemaNamedTypeInterface
     }
 
     public function getValueFromData($data, TypeRegistry $typeRegistry)
+    {
+        throw new DomainException('This class should not exist after Schema has been mapped');
+    }
+
+    public function getDataFromValue($value, TypeRegistry $typeRegistry)
     {
         throw new DomainException('This class should not exist after Schema has been mapped');
     }

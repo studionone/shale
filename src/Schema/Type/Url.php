@@ -4,22 +4,24 @@ namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 use Shale\Schema\Type\Validate\StringValidate;
+use Shale\Schema\Type\Validate\UrlSchemeValidate;
 
-class StringPrimitive implements SchemaNamedTypeInterface
+class Url implements SchemaNamedTypeInterface
 {
     use Validator;
 
     protected $validators = [
-        StringValidate::class
+        StringValidate::class,
+        UrlSchemeValidate::class
     ];
 
-    protected $exceptionMessage = 'string';
+    protected $exceptionMessage = 'number (integer or float)';
 
     /**
      * @return string
      */
     public function getName(): string
     {
-        return 'string';
+        return 'url';
     }
 }

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Shale\Schema\Type;
 
 use Shale\Exception\Schema\{
@@ -6,6 +7,7 @@ use Shale\Exception\Schema\{
     DataDecodeException,
     RequiredPropertyMissingException
 };
+use Shale\Exception\Schema\DataEncode\RequiredModelPropertyWasNullException;
 use Shale\Interfaces\Schema\{SchemaInterface,SchemaNamedTypeInterface};
 use Shale\Schema\TypeRegistry;
 use ReflectionClass;
@@ -99,5 +101,36 @@ class Object implements SchemaNamedTypeInterface
         }
 
         return $modelInstance;
+    }
+
+    /**
+     *
+     *
+     * This uses the schema information which *this instance* holds to
+     * transform the given object instance into serializable data.
+     *
+     * The resulting serializable data should be a stdclass instance,
+     * with only other stdclass instances or PHP primitives as
+     * attributes. This is a form suitable for, eg giving to
+     * json_encode() to produce transportable byte strings.
+     */
+    public function getDataFromValue($value, TypeRegistry $typeRegistry)
+    {
+        $reflModelClass = new ReflectionClass($value);
+
+        $data = new stdClass();
+
+        foreach ($this->properties as $schemaProperty) {
+            $getMethod = 'get' . ucfirst($schemaProperty->getNameInModel());
+            $propertyValue = $value->$getMethod();
+
+            $propertyData = $schemaProperty->createDataFromValue(
+                $propertyValue, $typeRegistry);
+
+            $nameInTransport = $schemaProperty->getNameInTransport();
+            $data->$nameInTransport = $propertyData;
+        }
+
+        return $data;
     }
 }

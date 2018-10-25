@@ -3,23 +3,26 @@
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Shale\Schema\Type\Validate\StringValidate;
+use Shale\Schema\Type\Validate\BooleanValidate;
 
-class StringPrimitive implements SchemaNamedTypeInterface
+class BooleanPrimitive implements SchemaNamedTypeInterface
 {
     use Validator;
 
+    /**
+     * @var array
+     */
     protected $validators = [
-        StringValidate::class
+        BooleanValidate::class
     ];
 
-    protected $exceptionMessage = 'string';
+    protected $exceptionMessage = 'boolean true or false';
 
     /**
      * @return string
      */
     public function getName(): string
     {
-        return 'string';
+        return 'boolean';
     }
 }

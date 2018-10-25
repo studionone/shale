@@ -3,23 +3,23 @@
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Shale\Schema\Type\Validate\StringValidate;
+use Shale\Schema\Type\Validate\FlexibleDateTimeValidate;
 
-class StringPrimitive implements SchemaNamedTypeInterface
+class FlexibleDateTime implements SchemaNamedTypeInterface
 {
     use Validator;
 
     protected $validators = [
-        StringValidate::class
+        FlexibleDateTimeValidate::class,
     ];
 
-    protected $exceptionMessage = 'string';
+    protected $exceptionMessage = 'timestamp or dateTime string';
 
     /**
      * @return string
      */
     public function getName(): string
     {
-        return 'string';
+        return 'flexibleDateTime';
     }
 }

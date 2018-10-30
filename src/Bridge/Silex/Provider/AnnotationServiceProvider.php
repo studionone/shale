@@ -1,8 +1,10 @@
 <?php
 namespace Shale\Bridge\Silex\Provider;
 
-use Silex\{Application, ServiceProviderInterface};
-use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
+use Silex\Application;
+use Silex\ServiceProviderInterface;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Shale\AnnotationLoader;
 
 /**
@@ -28,7 +30,8 @@ class AnnotationServiceProvider implements ServiceProviderInterface
         $this->annotationLoader = new AnnotationLoader(
             $annotationFqcnsAndFilePaths,
             $includeBuiltInAnnotations,
-            $annotationsMustBeLoadedExplicitly);
+            $annotationsMustBeLoadedExplicitly
+        );
 
         $this->annotationReader = new AnnotationReader();
     }
@@ -52,7 +55,8 @@ class AnnotationServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         AnnotationRegistry::registerLoader(
-            [$this->annotationLoader, 'load']);
+            [$this->annotationLoader, 'load']
+        );
 
         $app['annotation_reader'] = $this->annotationReader;
     }

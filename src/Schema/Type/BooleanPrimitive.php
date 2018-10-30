@@ -3,14 +3,17 @@
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Shale\Schema\Type\Validate\NumberValidate;
+use Shale\Schema\Type\Validate\BooleanValidate;
 
-class NumberPrimitive implements SchemaNamedTypeInterface
+class BooleanPrimitive implements SchemaNamedTypeInterface
 {
     use Validator;
 
+    /**
+     * @var array
+     */
     protected $validators = [
-        NumberValidate::class
+        BooleanValidate::class
     ];
 
     /**
@@ -18,6 +21,6 @@ class NumberPrimitive implements SchemaNamedTypeInterface
      */
     public function getName(): string
     {
-        return 'number';
+        return 'boolean';
     }
 }

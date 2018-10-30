@@ -37,12 +37,14 @@ class Engine
         // A class should have *exactly one* Model annotation
         if (count($modelAnnotations) < 1) {
             throw new LoadSchemaException(
-                'The class ' . $classFqcn . ' has no Model annotation');
+                'The class ' . $classFqcn . ' has no Model annotation'
+            );
         }
         if (count($modelAnnotations) > 1) {
             throw new LoadSchemaException(
                 'The class ' . $classFqcn . ' has more than one Model ' .
-                'annotation');
+                'annotation'
+            );
         }
         return $modelAnnotations[0];
     }
@@ -60,7 +62,8 @@ class Engine
 
             $schema = $modelAnnotation->giveClassSchema(
                 $fqcn,
-                $this->annotationReader);
+                $this->annotationReader
+            );
 
             $this->typeRegistry->registerType($schema);
 
@@ -89,7 +92,9 @@ class Engine
             foreach ($schema->getAllProperties() as $schemaProperty) {
                 // The property's value type may be a placeholder
                 $this->replacePossiblePlaceholderAt(
-                    $schemaProperty, 'valueType');
+                    $schemaProperty,
+                    'valueType'
+                );
 
                 // The value type may be a TypedArray, in which case its
                 // itemType may be a placeholder
@@ -98,7 +103,9 @@ class Engine
                     SchemaTypeWithTypedItemsInterface
                 ) {
                     $this->replacePossiblePlaceholderAt(
-                        $schemaProperty->getValueType(), 'itemType');
+                        $schemaProperty->getValueType(),
+                        'itemType'
+                    );
                 }
             }
         }
@@ -136,14 +143,16 @@ class Engine
     }
 
     public function createModelInstanceFromData(
-        string $modelFqcn, $objectData
+        string $modelFqcn,
+        $objectData
     ) {
         $objectType = $this->typeRegistry->getTypeByModelFqcn($modelFqcn);
         // We have to provide the TypeRegistry here so MixedObjectArray
         // can look up types
         $modelInstance = $objectType->getValueFromData(
             $objectData,
-            $this->typeRegistry);
+            $this->typeRegistry
+        );
 
         return $modelInstance;
     }

@@ -3,14 +3,14 @@
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Shale\Schema\Type\Validate\NumberValidate;
+use Shale\Schema\Type\Validate\FlexibleDateTimeValidate;
 
-class NumberPrimitive implements SchemaNamedTypeInterface
+class FlexibleDateTime implements SchemaNamedTypeInterface
 {
     use Validator;
 
     protected $validators = [
-        NumberValidate::class
+        FlexibleDateTimeValidate::class,
     ];
 
     /**
@@ -18,6 +18,6 @@ class NumberPrimitive implements SchemaNamedTypeInterface
      */
     public function getName(): string
     {
-        return 'number';
+        return 'flexibleDateTime';
     }
 }

@@ -6,10 +6,8 @@ use ReflectionProperty;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 
 use Shale\Exception\Schema\LoadSchemaException;
-use Shale\Interfaces\Annotation\{
-    ClassSchemaAnnotationInterface,
-    PropertySchemaAnnotationInterface
-};
+use Shale\Interfaces\Annotation\ClassSchemaAnnotationInterface;
+use Shale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
 use Shale\Interfaces\Schema\SchemaTypeInterface;
 use Shale\Schema;
 
@@ -25,23 +23,26 @@ class Model implements ClassSchemaAnnotationInterface
         string $annotatedClassFqcn,
         AnnotationReader $annotationReader
     ): SchemaTypeInterface {
-
         $propertySchemas = $this->getPropertySchemas(
-            $annotatedClassFqcn, $annotationReader);
+            $annotatedClassFqcn,
+            $annotationReader
+        );
 
         return new Schema\Type\Object(
             $this->name,
             $annotatedClassFqcn,
-            $propertySchemas);
+            $propertySchemas
+        );
     }
 
     protected function getPropertySchemas(
         string $annotatedClassFqcn,
         AnnotationReader $annotationReader
     ): array {
-
         $propertyNamesToAnnotations = $this->getPropertyAnnotations(
-            $annotatedClassFqcn, $annotationReader);
+            $annotatedClassFqcn,
+            $annotationReader
+        );
 
         $propertySchemas = [];
         foreach ($propertyNamesToAnnotations as $nameInModel => $annotation) {
@@ -68,7 +69,9 @@ class Model implements ClassSchemaAnnotationInterface
         $propertyNamesToAnnotations = [];
         foreach ($reflProperties as $reflProperty) {
             $annotation = $this->getPropertyAnnotationFor(
-                $reflProperty, $annotationReader);
+                $reflProperty,
+                $annotationReader
+            );
             // If we don't find a relevant annotation, don't add
             // anything to our results.
             if (!is_null($annotation)) {
@@ -139,11 +142,11 @@ class Model implements ClassSchemaAnnotationInterface
             throw new LoadSchemaException(
                 'The property "' . $reflProperty->name . '" on class ' .
                 $reflProperty->class . ' has more than one relevant ' .
-                'property annotation.');
+                'property annotation.'
+            );
         }
 
         // There's *exactly one* relevant annotation on the property
         return $propertyAnnotations[0];
     }
-
 }

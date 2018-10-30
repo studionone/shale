@@ -1,42 +1,36 @@
 <?php declare(strict_types=1);
 
-namespace Shale\Schema;
+namespace Shale;
 
-use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use RegexIterator;
+use Shale\Schema\Engine as SchemaEngine;
 
-/**
- * A utitlity class for giving the fully-qualified class name (FQCN) of
- * all classes in a directory.
- *
- * This is just a helper class for convenience, as almost any code using
- * Shale will likely need something like this for use with
- * $schemaEngine->loadSchemaForModels([..]). The alternative is manually
- * enumerating each model class's FQCN.
- *
- * This is unrelated to the Shale\AnnotationLoader class.
- */
-class FqcnLoader
+class ModelHydrator
 {
-    /**
-     * Given a path to a directory, give the fully-qualified class name
-     * (FQCN) of each PHP class in that directory or its
-     * sub-directories.
-     *
-     * Implementation adapted from:
-     * http://stackoverflow.com/questions/22761554/php-get-all-class-names-inside-a-particular-namespace
-     *
-     * @return string[] An array with each class's FQCN as a string.
-     */
-    public function getFqcnsForPath(string $path): array
+    protected $schemaEngine;
+    protected $modelsPath;
+
+    public function __construct(SchemaEngine $schemaEngine, string $modelsPath)
     {
+        $this->schemaEngine = $schemaEngine;
+        $this->modelsPath = $modelsPath;
+
+        $modelFqncs = $this->getModelFqcns();
+        $this->schemaEngine->loadSchemaForModels($modelFqncs);
+    }
+
+    public function getModelFqcns()
+    {
+        if (is_null($this->modelsPath)) {
+            return [];
+        }
         $fqcns = [];
         $allFiles = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path)
+            new RecursiveDirectoryIterator($this->modelsPath)
         );
         $phpFiles = new RegexIterator($allFiles, '/\.php$/');
-
         foreach ($phpFiles as $phpFile) {
             $content = file_get_contents($phpFile->getRealPath());
             $tokens = token_get_all($content);
@@ -57,7 +51,18 @@ class FqcnLoader
                 }
             }
         }
-
         return $fqcns;
+    }
+
+    public function hydrateFromJson(string $rootModelFqcn, array $jsonObjectAsArray)
+    {
+        $rootModelInstance = $this->schemaEngine
+                                  ->createModelInstanceFromData($rootModelFqcn, $jsonObjectAsArray);
+        return $rootModelInstance;
+    }
+    public function serializeModelInstanceToJson($modelInstance)
+    {
+        return $this->schemaEngine
+                    ->createDataFromModelInstance($modelInstance);
     }
 }

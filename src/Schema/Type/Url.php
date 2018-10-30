@@ -3,14 +3,16 @@
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Shale\Schema\Type\Validate\NumberValidate;
+use Shale\Schema\Type\Validate\StringValidate;
+use Shale\Schema\Type\Validate\UrlSchemeValidate;
 
-class NumberPrimitive implements SchemaNamedTypeInterface
+class Url implements SchemaNamedTypeInterface
 {
     use Validator;
 
     protected $validators = [
-        NumberValidate::class
+        StringValidate::class,
+        UrlSchemeValidate::class
     ];
 
     /**
@@ -18,6 +20,6 @@ class NumberPrimitive implements SchemaNamedTypeInterface
      */
     public function getName(): string
     {
-        return 'number';
+        return 'url';
     }
 }

@@ -54,7 +54,7 @@ class ModelHydrator
         return $fqcns;
     }
 
-    public function hydrateFromJson(string $rootModelFqcn, $jsonObjectAsArray)
+    public function hydrateFromJson(string $rootModelFqcn, array $jsonObjectAsArray)
     {
         $rootModelInstance = $this->schemaEngine
                                   ->createModelInstanceFromData($rootModelFqcn, $jsonObjectAsArray);

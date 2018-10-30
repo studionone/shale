@@ -13,8 +13,6 @@ class NumberPrimitive implements SchemaNamedTypeInterface
         NumberValidate::class
     ];
 
-    protected $exceptionMessage = 'number (integer or float)';
-
     /**
      * @return string
      */
@@ -22,5 +20,4 @@ class NumberPrimitive implements SchemaNamedTypeInterface
     {
         return 'number';
     }
-
 }

@@ -33,7 +33,8 @@ class FqcnLoader
     {
         $fqcns = [];
         $allFiles = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($path));
+            new RecursiveDirectoryIterator($path)
+        );
         $phpFiles = new RegexIterator($allFiles, '/\.php$/');
 
         foreach ($phpFiles as $phpFile) {

@@ -15,8 +15,6 @@ class Url implements SchemaNamedTypeInterface
         UrlSchemeValidate::class
     ];
 
-    protected $exceptionMessage = 'number (integer or float)';
-
     /**
      * @return string
      */

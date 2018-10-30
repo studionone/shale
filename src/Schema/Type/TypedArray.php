@@ -20,7 +20,8 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
     /** @var SchemaNamedTypeInterface  */
     protected $itemType;
 
-    public function __construct(SchemaNamedTypeInterface $itemType) {
+    public function __construct(SchemaNamedTypeInterface $itemType)
+    {
         $this->itemType = $itemType;
     }
 

@@ -2,11 +2,10 @@
 namespace Shale\Schema;
 
 use Shale\Traits\Accessors;
-use Shale\Exception\Schema\{
-    DataDecodeException,
-    RequiredPropertyWasNullException
-};
-use Shale\Interfaces\Schema\{SchemaInterface,SchemaTypeInterface};
+use Shale\Exception\Schema\DataDecodeException;
+use Shale\Exception\Schema\RequiredPropertyWasNullException;
+use Shale\Interfaces\Schema\SchemaInterface;
+use Shale\Interfaces\Schema\SchemaTypeInterface;
 use Shale\Schema\TypeRegistry;
 
 /**
@@ -76,7 +75,10 @@ class Property implements SchemaInterface
             if ($this->required) {
                 // This property is required, so null can't be given.
                 throw new RequiredPropertyWasNullException(
-                    $this->nameInTransport, $this->nameInModel, $data);
+                    $this->nameInTransport,
+                    $this->nameInModel,
+                    $data
+                );
             } else {
                 // This is an optional property.
                 //
@@ -88,13 +90,13 @@ class Property implements SchemaInterface
 
         try {
             return $this->valueType->getValueFromData($data, $typeRegistry);
-
         } catch (DataDecodeException $e) {
             $valueTypeName = get_class($this->valueType);
             $message = (
                 'Error occurred while decoding property "' .
                 $this->nameInTransport . '" (named "'. $this->nameInModel .
-                '" in model) using type ' . $valueTypeName);
+                '" in model) using type ' . $valueTypeName
+            );
 
             // Throw a new exception which gives more context about when
             // this exception occurred.

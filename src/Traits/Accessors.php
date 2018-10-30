@@ -2,8 +2,8 @@
 
 namespace Shale\Traits;
 
-use BadMethodCallException,
-    InvalidArgumentException;
+use BadMethodCallException;
+use InvalidArgumentException;
 
 /**
  * This is a useful trait to give you magic setters and getters for the properties on your class
@@ -13,9 +13,11 @@ trait Accessors
     public function __call($method, $args)
     {
         if (! preg_match('/(?P<accessor>set|get)(?P<property>[A-Z][a-zA-Z0-9]*)/', $method, $match)
-         || ! property_exists(__CLASS__, $match['property'] = lcfirst($match['property'])) ) {
+         || ! property_exists(__CLASS__, $match['property'] = lcfirst($match['property']))) {
             throw new BadMethodCallException(sprintf(
-                "'%s' does not exist in '%s'.", $method, get_class($this)
+                "'%s' does not exist in '%s'.",
+                $method,
+                get_class($this)
             ));
         }
 

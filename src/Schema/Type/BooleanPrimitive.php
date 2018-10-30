@@ -16,8 +16,6 @@ class BooleanPrimitive implements SchemaNamedTypeInterface
         BooleanValidate::class
     ];
 
-    protected $exceptionMessage = 'boolean true or false';
-
     /**
      * @return string
      */

@@ -10,8 +10,6 @@ class MarkDown extends StringPrimitive implements SchemaNamedTypeInterface
 {
     use Validator;
 
-    protected $exceptionMessage = 'markdown';
-
     /**
      * @return string
      */

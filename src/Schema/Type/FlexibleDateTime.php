@@ -13,8 +13,6 @@ class FlexibleDateTime implements SchemaNamedTypeInterface
         FlexibleDateTimeValidate::class,
     ];
 
-    protected $exceptionMessage = 'timestamp or dateTime string';
-
     /**
      * @return string
      */

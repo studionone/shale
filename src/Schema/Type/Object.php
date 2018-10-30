@@ -2,13 +2,12 @@
 
 namespace Shale\Schema\Type;
 
-use Shale\Exception\Schema\{
-    DataWasWrongTypeException,
-    DataDecodeException,
-    RequiredPropertyMissingException
-};
+use Shale\Exception\Schema\DataWasWrongTypeException;
+use Shale\Exception\Schema\DataDecodeException;
+use Shale\Exception\Schema\RequiredPropertyMissingException;
 use Shale\Exception\Schema\DataEncode\RequiredModelPropertyWasNullException;
-use Shale\Interfaces\Schema\{SchemaInterface,SchemaNamedTypeInterface};
+use Shale\Interfaces\Schema\SchemaInterface;
+use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 use Shale\Schema\TypeRegistry;
 use ReflectionClass;
 use stdClass;
@@ -69,7 +68,9 @@ class Object implements SchemaNamedTypeInterface
     {
         if (! $data instanceof stdClass) {
             throw new DataWasWrongTypeException(
-                'object (stdclass)', $data);
+                'object (stdclass)',
+                $data
+            );
         }
 
         $reflModelClass = new ReflectionClass($this->modelFqcn);
@@ -78,17 +79,17 @@ class Object implements SchemaNamedTypeInterface
         foreach ($this->properties as $schemaProperty) {
             $nameInTransport = $schemaProperty->getNameInTransport();
 
-            if (! property_exists($data, $nameInTransport) ) {
+            if (! property_exists($data, $nameInTransport)) {
                 if ($schemaProperty->isRequired()) {
                     throw new RequiredPropertyMissingException(
                         $nameInTransport,
                         $schemaProperty->getNameInModel(),
-                        $data);
+                        $data
+                    );
                 }
                 // Property is not required.
                 //
                 // This isn't an error. Just continue.
-
             } else {
                 $propertyData = $data->$nameInTransport;
 
@@ -125,7 +126,9 @@ class Object implements SchemaNamedTypeInterface
             $propertyValue = $value->$getMethod();
 
             $propertyData = $schemaProperty->createDataFromValue(
-                $propertyValue, $typeRegistry);
+                $propertyValue,
+                $typeRegistry
+            );
 
             $nameInTransport = $schemaProperty->getNameInTransport();
             $data->$nameInTransport = $propertyData;

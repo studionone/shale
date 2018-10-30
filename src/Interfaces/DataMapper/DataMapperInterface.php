@@ -2,6 +2,7 @@
 
 namespace Shale\Interfaces\DataMapper;
 
-interface DataMapperInterface {
+interface DataMapperInterface
+{
     public function map($data);
 }

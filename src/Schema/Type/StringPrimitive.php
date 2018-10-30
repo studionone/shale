@@ -13,8 +13,6 @@ class StringPrimitive implements SchemaNamedTypeInterface
         StringValidate::class
     ];
 
-    protected $exceptionMessage = 'string';
-
     /**
      * @return string
      */

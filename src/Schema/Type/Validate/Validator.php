@@ -2,6 +2,7 @@
 
 namespace Shale\Schema\Type\Validate;
 
-interface Validator {
+interface Validator
+{
     public static function validate($data): bool ;
 }

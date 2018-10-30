@@ -88,7 +88,7 @@ class AnnotationLoader
         /*
          * TODO Update this to respect the
          * $annotationsMustBeLoadedExplicitly option in __construct().
-         */ 
+         */
 
         $classname = ltrim($baseClassname, '\\');
 

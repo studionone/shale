@@ -156,4 +156,16 @@ class Engine
 
         return $modelInstance;
     }
+
+    public function createDataFromModelInstance($modelInstance) {
+        $schemaType = $this
+            ->typeRegistry
+            ->getTypeByModelInstance($modelInstance);
+
+        $modelData = $schemaType->getDataFromValue(
+            $modelInstance,
+            $this->typeRegistry);
+
+        return $modelData;
+    }
 }

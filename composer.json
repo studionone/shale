@@ -1,7 +1,7 @@
 {
     "name": "studionone/shale",
     "description": "A PHP schema system for (de)serializing JSON and other transports",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "keywords": ["serialization", "json"],
     "homepage": "https://github.com/studionone/shale",
     "license": "MIT",

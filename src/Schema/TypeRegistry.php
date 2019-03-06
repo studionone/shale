@@ -43,6 +43,16 @@ class TypeRegistry
         return $this->typesByModelFqcn[$modelFqcn];
     }
 
+    public function getTypeByModelInstance(
+        $modelInstance
+    ): SchemaNamedTypeInterface {
+
+        $reflClass = new \ReflectionClass($modelInstance);
+        $modelFqcn = $reflClass->getName();
+
+        return $this->getTypeByModelFqcn($modelFqcn);
+    }
+
     public function getAllTypes(): array
     {
         return $this->typesByName;

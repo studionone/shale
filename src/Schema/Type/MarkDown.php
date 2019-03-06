@@ -4,7 +4,6 @@ namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 use cebe\markdown\Markdown as MarkdownParser;
-use Shale\ThirdParty\Markdown\MarkdownExtraParser;
 
 class MarkDown extends StringPrimitive implements SchemaNamedTypeInterface
 {

@@ -2,7 +2,6 @@
 namespace Shale\Schema;
 
 use ReflectionClass;
-use ReflectionProperty;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 use Shale\Interfaces\Annotation\ClassSchemaAnnotationInterface;
 use Shale\Interfaces\Schema\SchemaTypeWithTypedItemsInterface;
@@ -23,7 +22,7 @@ class Engine
 
     protected function getModelAnnotationFor(string $classFqcn)
     {
-        $modelReflClass = new ReflectionClass($classFqcn);
+        $modelReflClass = new \ReflectionClass($classFqcn);
         $classAnnotations = $this
             ->annotationReader
             ->getClassAnnotations($modelReflClass);
@@ -155,5 +154,17 @@ class Engine
         );
 
         return $modelInstance;
+    }
+
+    public function createDataFromModelInstance($modelInstance) {
+        $schemaType = $this
+            ->typeRegistry
+            ->getTypeByModelInstance($modelInstance);
+
+        $modelData = $schemaType->getDataFromValue(
+            $modelInstance,
+            $this->typeRegistry);
+
+        return $modelData;
     }
 }

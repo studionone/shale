@@ -22,7 +22,7 @@ class TypeRegistry
         $this->typesByName[$name] = $schemaType;
 
         // XXX TODO Make this less ugly
-        if ($schemaType instanceof Type\Object) {
+        if ($schemaType instanceof Type\BaseObject) {
             $this->typesByModelFqcn[$schemaType->getModelFqcn()] = $schemaType;
         }
     }

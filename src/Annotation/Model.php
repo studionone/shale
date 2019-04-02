@@ -28,7 +28,7 @@ class Model implements ClassSchemaAnnotationInterface
             $annotationReader
         );
 
-        return new Schema\Type\Object(
+        return new Schema\Type\BaseObject(
             $this->name,
             $annotatedClassFqcn,
             $propertySchemas

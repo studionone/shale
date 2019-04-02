@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "730224c4f9a8b4d7f677bc8b49f3e568",
+    "content-hash": "63070e7816dd67e250e6f3e980b3c9c8",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -190,7 +190,7 @@
         },
         {
             "name": "nikita2206/result",
-            "version": "dev-master",
+            "version": "0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikita2206/result.git",
@@ -2114,9 +2114,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "nikita2206/result": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

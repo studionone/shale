@@ -12,7 +12,7 @@ use Shale\Schema\TypeRegistry;
 use ReflectionClass;
 use stdClass;
 
-class Object implements SchemaNamedTypeInterface
+class BaseObject implements SchemaNamedTypeInterface
 {
     protected $name;
     protected $modelFqcn;

@@ -8,7 +8,7 @@ use Exception;
 /**
  * Class DateTimeHelper
  *
- * @package Explore\Util
+ * @package Shale\Util
  */
 class DateTimeHelper
 {

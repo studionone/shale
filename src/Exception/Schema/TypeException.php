@@ -2,6 +2,6 @@
 
 namespace Shale\Exception\Schema;
 
-class SchemaException extends \Exception
+class TypeException extends \Exception
 {
 }

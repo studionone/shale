@@ -13,9 +13,8 @@ class DataWasWrongTypeException extends DataDecodeException
     ) {
         $problemDataType = gettype($problemData);
         $message = (
-            'Data given was not a ' . $expectedTypeName . ', was instead of ' .
-            'type ' . $problemDataType
-        );
+            'Data given to decode was not a ' . $expectedTypeName . ', was ' .
+            'instead of type ' . $problemDataType);
 
         parent::__construct($message, $problemData, $code, $previous);
     }

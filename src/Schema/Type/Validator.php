@@ -128,54 +128,54 @@ trait Validator
         // Insert new elements not supported by purify
         // check example doc https://github.com/kennberg/php-htmlpurfier-html5/blob/master/htmlpurifier_html5.php
         if ($def = $config->maybeGetRawHTMLDefinition()) {
-            $def->addElement(
-                'figure',
-                'Block',
-                'Flow',
-                'Common'
-            );
-            $def->addAttribute(
-                'figure',
-                'data-markdown',
-                'Text'
-            );
-            $def->addElement(
-                'figcaption',
-                'Inline',
-                'Flow',
-                'Common'
-            );
-            $def->addAttribute(
-                'iframe',
-                'src',
-                'Text'
-            );
+            $schemaTypes = [
+                'itemtype'  => 'URI',
+                'itemscope' => 'Bool',
+                'itemprop' => 'Text',
+                'content' => 'URI',
+            ];
 
-            $def->addAttribute(
-                'iframe',
-                'height',
-                'Text'
-            );
-            $def->addAttribute(
-                'iframe',
-                'width',
-                'Text'
-            );
-            $def->addAttribute(
-                'iframe',
-                'scrolling',
-                'Text'
-            );
-            $def->addAttribute(
-                'iframe',
-                'frameborder',
-                'Text'
-            );
-            $def->addAttribute(
-                'iframe',
-                'allowfullscreen',
-                'Text'
-            );
+            $elements = [
+                ['figure', 'Block', 'Flow', 'Common'],
+                ['figurecaption', 'Inline', 'Flow', 'Common'],
+                ['div', 'Block', 'Flow', 'Common', $schemaTypes],
+                ['spand', 'Block', 'Flow', 'Common', $schemaTypes],
+                ['p', 'Block', 'Flow', 'Common', $schemaTypes],
+            ];
+
+            $attributes = [
+                ['figure', 'data-markdown', 'Text'],
+                ['img', 'loading', 'Text'],
+                ['img', 'srcset', 'Text'],
+                ['a', 'rel', 'Text'],
+                ['a', 'target', 'Text'],
+                ['iframe', 'src', 'Text'],
+                ['iframe', 'height', 'Text'],
+                ['iframe', 'width', 'Text'],
+                ['iframe', 'scrolling', 'Text'],
+                ['iframe', 'frameborder', 'Text'],
+                ['iframe', 'allowfullscreen', 'Text'],
+                ['iframe', 'data-height', 'Text'],
+                ['iframe', 'data-width', 'Text'],
+                ['iframe', 'data-src', 'Text'],
+                ['iframe', 'loading', 'Text'],
+            ];
+
+            // Adding elements
+            foreach ($elements as $key => $element) {
+                // elementName, type, contents, attrCollections, array
+                if (!empty($element[4])) {
+                    $def->addElement($element[0], $element[1], $element[2], $element[3], $element[4]);
+                    continue;
+                }
+                $def->addElement($element[0], $element[1], $element[2], $element[3]);
+            }
+
+            // adding attributes
+            foreach ($attributes as $key => $attribute) {
+                // elementName, attrName, def
+                $def->addAttribute($attribute[0], $attribute[1], $attribute[2]);
+            }
         }
 
         return new HTMLPurifier($config);
@@ -195,9 +195,26 @@ trait Validator
      */
     protected function getAllowed() : array
     {
+        $allowed = [
+            'div, span, p',
+            'figure, figcaption',
+            'h1, h2, h3, h4, h5, h6',
+            'a, img, ul, ol, li',
+            'pre, br, em, blockquote',
+        ];
+
+        $attributes = [
+            '*.class, *.id',
+            '*.attr, *.alt, *.data',
+            '*.itemscope, *.itemtype, *.itemprop',
+            'img.src, img.loading, img.srcset, a.href, a.rel, a.target',
+            'iframe.src, iframe.loading, iframe.height, iframe.width, iframe.data-height',
+            'iframe.data-width, iframe.data-src, iframe.frameborder, iframe.scrolling, iframe.allowfullscreen',
+        ];
+
         return [
-            'allowed' => 'figure, figcaption, pre, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, blockquote, br, em',
-            'attributes' => '*.class, *.id, img.src, iframe.src, iframe.height, iframe.width, iframe.frameborder, iframe.scrolling, iframe.allowfullscreen, *.attr, a.href, *.alt, *.data'
+            'allowed' => implode(',', $allowed),
+            'attributes' => implode(',', $attributes),
         ];
     }
 }

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Shale\Exception\Schema\DataEncode;
 
 use Throwable;
@@ -8,7 +9,7 @@ class ValueWasWrongTypeException extends DataEncodeException
     public function __construct(
         string $expectedTypeName,
         $problemValue,
-        $code = 0,
+        int $code = 0,
         Throwable $previous = null
     ) {
         $problemValueType = gettype($problemValue);

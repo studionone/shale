@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Shale\Exception\Schema\DataEncode;
 
 use Throwable;
@@ -11,7 +12,7 @@ class DataEncodeException extends SchemaException
     public function __construct(
         string $message = "",
         $problemValue = null,
-        $code = 0,
+        int $code = 0,
         Throwable $previous = null
     ) {
         $this->problemValue = $problemValue;

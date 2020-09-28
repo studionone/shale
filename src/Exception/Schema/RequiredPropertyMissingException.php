@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Shale\Exception\Schema;
 
 use Throwable;
@@ -9,7 +10,7 @@ class RequiredPropertyMissingException extends RequiredDataMissingException
         string $propertyNameInTransport,
         string $propertyNameInModel,
         $problemData,
-        $code = 0,
+        int $code = 0,
         Throwable $previous = null
     ) {
         $message = (

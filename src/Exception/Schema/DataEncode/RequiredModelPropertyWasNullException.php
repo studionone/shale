@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Shale\Exception\Schema\DataEncode;
 
 use Throwable;
@@ -10,7 +11,7 @@ class RequiredModelPropertyWasNullException
         string $propertyNameInModel,
         string $propertyNameInTransport,
         $problemData,
-        $code = 0,
+        int $code = 0,
         Throwable $previous = null
     ) {
         $message = (

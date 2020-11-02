@@ -147,6 +147,7 @@ trait Validator
                 ['figure', 'data-markdown', 'Text'],
                 ['img', 'loading', 'Text'],
                 ['img', 'srcset', 'Text'],
+                ['img', 'sizes', 'Text'],
                 ['a', 'rel', 'Text'],
                 ['a', 'target', 'Text'],
                 ['iframe', 'src', 'Text'],
@@ -207,7 +208,7 @@ trait Validator
             '*.class, *.id',
             '*.attr, *.alt, *.data',
             '*.itemscope, *.itemtype, *.itemprop',
-            'img.src, img.loading, img.srcset, a.href, a.rel, a.target',
+            'img.src, img.loading, img.srcset, img.sizes, a.href, a.rel, a.target',
             'iframe.src, iframe.loading, iframe.height, iframe.width, iframe.data-height',
             'iframe.data-width, iframe.data-src, iframe.frameborder, iframe.scrolling, iframe.allowfullscreen',
         ];

@@ -1,9 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Interfaces\Schema;
 
 use Shale\Schema\TypeRegistry;
 
+/**
+ * Interface SchemaTypeInterface
+ *
+ * @package Shale\Interfaces\Schema
+ */
 interface SchemaTypeInterface
 {
     /**

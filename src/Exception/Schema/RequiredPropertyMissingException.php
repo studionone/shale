@@ -1,11 +1,27 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Exception\Schema;
 
 use Throwable;
 
+/**
+ * Class RequiredPropertyMissingException
+ *
+ * @package Shale\Exception\Schema
+ */
 class RequiredPropertyMissingException extends RequiredDataMissingException
 {
+    /**
+     * RequiredPropertyMissingException constructor.
+     *
+     * @param string $propertyNameInTransport
+     * @param string $propertyNameInModel
+     * @param $problemData
+     * @param int $code
+     * @param Throwable|null $previous
+     */
     public function __construct(
         string $propertyNameInTransport,
         string $propertyNameInModel,
@@ -18,6 +34,7 @@ class RequiredPropertyMissingException extends RequiredDataMissingException
             $propertyNameInModel . '" in model) is required, but was missing ' .
             'from the object data given'
         );
+
         parent::__construct($message, $problemData, $code, $previous);
     }
 }

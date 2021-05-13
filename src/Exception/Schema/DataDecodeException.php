@@ -1,13 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Exception\Schema;
 
 use Throwable;
 
+/**
+ * Class DataDecodeException
+ *
+ * @package Shale\Exception\Schema
+ */
 class DataDecodeException extends SchemaException
 {
+    /** @var mixed|null */
     public $problemData;
 
+    /**
+     * DataDecodeException constructor.
+     *
+     * @param string $message
+     * @param mixed|null $problemData
+     * @param int $code
+     * @param Throwable|null $previous
+     */
     public function __construct(
         string $message = "",
         $problemData = null,
@@ -19,11 +35,17 @@ class DataDecodeException extends SchemaException
         parent::__construct($message, $code, $previous);
     }
 
+    /**
+     * @return mixed|null
+     */
     public function getProblemData()
     {
-        return $problemData;
+        return $this->problemData;
     }
 
+    /**
+     * @param $problemData
+     */
     public function setProblemData($problemData)
     {
         $this->problemData = $problemData;

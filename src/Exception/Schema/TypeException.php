@@ -1,7 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Exception\Schema;
 
-class TypeException extends \Exception
+use Exception;
+
+/**
+ * Class TypeException
+ *
+ * @package Shale\Exception\Schema
+ */
+class TypeException extends Exception
 {
 }

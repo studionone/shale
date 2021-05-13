@@ -1,23 +1,41 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
 use Shale\Exception\Schema\DataWasWrongTypeException;
-use Shale\Exception\Schema\DataDecodeException;
 use Shale\Exception\Schema\RequiredPropertyMissingException;
-use Shale\Exception\Schema\DataEncode\RequiredModelPropertyWasNullException;
 use Shale\Interfaces\Schema\SchemaInterface;
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 use Shale\Schema\TypeRegistry;
 use ReflectionClass;
+use ReflectionException;
 use stdClass;
 
+/**
+ * Class BaseObject
+ *
+ * @package Shale\Schema\Type
+ */
 class BaseObject implements SchemaNamedTypeInterface
 {
+    /** @var string */
     protected $name;
+
+    /** @var string */
     protected $modelFqcn;
+
+    /** @var array */
     protected $properties;
 
+    /**
+     * BaseObject constructor.
+     *
+     * @param string $name
+     * @param string $modelFqcn
+     * @param array $properties
+     */
     public function __construct(
         string $name,
         string $modelFqcn,
@@ -31,6 +49,9 @@ class BaseObject implements SchemaNamedTypeInterface
     /**
      * Process the given properties array to be keyed by
      * $property->nameInTransport.
+     *
+     * @param array $propertiesAsIndexedArray
+     * @return array
      */
     protected function processProperties(array $propertiesAsIndexedArray): array
     {
@@ -43,34 +64,51 @@ class BaseObject implements SchemaNamedTypeInterface
         return $propertiesByName;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getModelFqcn(): string
     {
         return $this->modelFqcn;
     }
 
+    /**
+     * @return array
+     */
     public function getAllProperties(): array
     {
         return $this->properties;
     }
 
-    public function getPropertyByNameInTransport(
-        string $nameInTransport
-    ): SchemaInterface {
+    /**
+     * @param string $nameInTransport
+     * @return SchemaInterface
+     */
+    public function getPropertyByNameInTransport(string $nameInTransport): SchemaInterface
+    {
         return $this->properties[$nameInTransport];
     }
 
+    /**
+     * @param mixed $data
+     * @param TypeRegistry $typeRegistry
+     * @return mixed|object
+     * @throws DataWasWrongTypeException
+     * @throws RequiredPropertyMissingException
+     * @throws ReflectionException
+     */
     public function getValueFromData($data, TypeRegistry $typeRegistry)
     {
-        if (! $data instanceof stdClass) {
-            throw new DataWasWrongTypeException(
-                'object (stdclass)',
-                $data
-            );
+        if (!$data instanceof stdClass) {
+            throw new DataWasWrongTypeException('object (stdclass)', $data);
         }
 
         $reflModelClass = new ReflectionClass($this->modelFqcn);
@@ -79,7 +117,7 @@ class BaseObject implements SchemaNamedTypeInterface
         foreach ($this->properties as $schemaProperty) {
             $nameInTransport = $schemaProperty->getNameInTransport();
 
-            if (! property_exists($data, $nameInTransport)) {
+            if (!property_exists($data, $nameInTransport)) {
                 if ($schemaProperty->isRequired()) {
                     throw new RequiredPropertyMissingException(
                         $nameInTransport,
@@ -105,8 +143,6 @@ class BaseObject implements SchemaNamedTypeInterface
     }
 
     /**
-     *
-     *
      * This uses the schema information which *this instance* holds to
      * transform the given object instance into serializable data.
      *
@@ -114,11 +150,13 @@ class BaseObject implements SchemaNamedTypeInterface
      * with only other stdclass instances or PHP primitives as
      * attributes. This is a form suitable for, eg giving to
      * json_encode() to produce transportable byte strings.
+     *
+     * @param $value
+     * @param TypeRegistry $typeRegistry
+     * @return stdClass
      */
-    public function getDataFromValue($value, TypeRegistry $typeRegistry)
+    public function getDataFromValue($value, TypeRegistry $typeRegistry): stdClass
     {
-        $reflModelClass = new ReflectionClass($value);
-
         $data = new stdClass();
 
         foreach ($this->properties as $schemaProperty) {

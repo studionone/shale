@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
@@ -16,45 +18,55 @@ class MixedObjectArray implements SchemaTypeInterface
 {
     use Accessors;
 
+    /** @var string */
     protected $typeFieldName;
 
+    /**
+     * MixedObjectArray constructor.
+     *
+     * @param string $typeFieldName
+     */
     public function __construct(string $typeFieldName)
     {
         $this->typeFieldName = $typeFieldName;
     }
 
-    public function getValueFromData($data, TypeRegistry $typeRegistry)
+    /**
+     * @param mixed $data
+     * @param TypeRegistry $typeRegistry
+     * @return array
+     * @throws DataWasWrongTypeException
+     */
+    public function getValueFromData($data, TypeRegistry $typeRegistry): array
     {
         if (!is_array($data)) {
             throw new DataWasWrongTypeException('array', $data);
         }
 
-        $contents = [];
-
-        foreach ($data as $itemData) {
+        return array_map(function ($itemData) use ($typeRegistry) {
             // XXX TODO Add checking here so we give better exceptions
             // when the type field doesn't exist or decoding with the
             // specified type fails
             $itemTypeName = $itemData->{$this->typeFieldName};
             $itemType = $typeRegistry->getType($itemTypeName);
 
-            $item = $itemType
-                ->getValueFromData($itemData, $typeRegistry);
-            $contents[] = $item;
-        }
-
-        return $contents;
+            return $itemType->getValueFromData($itemData, $typeRegistry);
+        }, $data);
     }
 
-    public function getDataFromValue($value, TypeRegistry $typeRegistry)
+    /**
+     * @param $value
+     * @param TypeRegistry $typeRegistry
+     * @return array
+     * @throws ValueWasWrongTypeException
+     */
+    public function getDataFromValue($value, TypeRegistry $typeRegistry): array
     {
         if (!is_array($value)) {
             throw new ValueWasWrongTypeException('array', $value);
         }
 
-        $contents = [];
-
-        foreach ($value as $itemValue) {
+        return array_map(function ($itemValue) use ($typeRegistry) {
             $itemSchemaType = $typeRegistry->getTypeByModelInstance($itemValue);
             $item = $itemSchemaType->getDataFromValue($itemValue, $typeRegistry);
 
@@ -62,9 +74,7 @@ class MixedObjectArray implements SchemaTypeInterface
             // field to describe the object's type
             $item->{$this->typeFieldName} = $itemSchemaType->getName();
 
-            $contents[] = $item;
-        }
-
-        return $contents;
+            return $item;
+        }, $value);
     }
 }

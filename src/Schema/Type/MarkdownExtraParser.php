@@ -1,9 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
-use cebe\markdown\MarkdownExtra;
-
+/**
+ * Class MarkdownExtraParser
+ *
+ * @package Shale\Schema\Type
+ */
 class MarkdownExtraParser extends ShortcodeMarkdown
 {
     /**

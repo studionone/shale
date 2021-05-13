@@ -1,23 +1,30 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 use Shale\Schema\Type\Validate\BooleanValidate;
 
+/**
+ * Class BooleanPrimitive
+ *
+ * @package Shale\Schema\Type
+ */
 class BooleanPrimitive implements SchemaNamedTypeInterface
 {
     use Validator;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $validators = [
-        BooleanValidate::class
+        BooleanValidate::class,
     ];
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getName(): string
     {

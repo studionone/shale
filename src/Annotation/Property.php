@@ -1,9 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Annotation;
 
 use Shale\Interfaces\Schema\SchemaInterface;
 use Shale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
-use Shale\Schema;
+use Shale\Schema\Property as ShaleSchemaProperty;
+use Shale\Schema\Type\Placeholder;
 
 /**
  * @Annotation
@@ -44,15 +48,19 @@ class Property implements PropertySchemaAnnotationInterface
      */
     public $optional = false;
 
-    public function givePropertySchema($nameInModel): SchemaInterface
+    /**
+     * @param string $nameInModel
+     * @return SchemaInterface
+     */
+    public function givePropertySchema(string $nameInModel): SchemaInterface
     {
-        $valueType = new Schema\Type\Placeholder($this->type);
+        $valueType = new Placeholder($this->type);
 
-        return new Schema\Property(
+        return new ShaleSchemaProperty(
             $this->name,
             $nameInModel,
             $valueType,
-            (! $this->optional)
+            !$this->optional
         );
     }
 }

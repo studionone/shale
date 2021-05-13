@@ -1,20 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type\Validate;
 
-class NumberValidate implements Validator
-{
+use Shale\Interfaces\Schema\ValidatorInterface;
 
+/**
+ * Class NumberValidate
+ *
+ * @package Shale\Schema\Type\Validate
+ */
+class NumberValidate implements ValidatorInterface
+{
     /**
-     * @param $data
-     * @return bool
+     * @inheritDoc
      */
     public static function validate($data): bool
     {
-        if (!is_int($data) && !is_float($data)) {
-            return false;
-        }
-
-        return true;
+        return (is_int($data) || is_float($data));
     }
 }

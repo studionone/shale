@@ -1,15 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Annotation;
 
 use ReflectionClass;
 use ReflectionProperty;
+use ReflectionException;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
-
 use Shale\Exception\Schema\LoadSchemaException;
 use Shale\Interfaces\Annotation\ClassSchemaAnnotationInterface;
 use Shale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
 use Shale\Interfaces\Schema\SchemaTypeInterface;
-use Shale\Schema;
+use Shale\Schema\Type\BaseObject;
 
 /**
  * @Annotation
@@ -19,6 +22,11 @@ class Model implements ClassSchemaAnnotationInterface
 {
     public $name;
 
+    /**
+     * @param string $annotatedClassFqcn
+     * @param AnnotationReader $annotationReader
+     * @return SchemaTypeInterface
+     */
     public function giveClassSchema(
         string $annotatedClassFqcn,
         AnnotationReader $annotationReader
@@ -28,13 +36,18 @@ class Model implements ClassSchemaAnnotationInterface
             $annotationReader
         );
 
-        return new Schema\Type\BaseObject(
+        return new BaseObject(
             $this->name,
             $annotatedClassFqcn,
             $propertySchemas
         );
     }
 
+    /**
+     * @param string $annotatedClassFqcn
+     * @param AnnotationReader $annotationReader
+     * @return array
+     */
     protected function getPropertySchemas(
         string $annotatedClassFqcn,
         AnnotationReader $annotationReader
@@ -58,6 +71,11 @@ class Model implements ClassSchemaAnnotationInterface
      *
      * Each annotation object will be something which implements
      * PropertySchemaAnnotationInterface.
+     *
+     * @param string $annotatedClassFqcn
+     * @param AnnotationReader $annotationReader
+     * @return array
+     * @throws ReflectionException
      */
     protected function getPropertyAnnotations(
         string $annotatedClassFqcn,
@@ -72,6 +90,7 @@ class Model implements ClassSchemaAnnotationInterface
                 $reflProperty,
                 $annotationReader
             );
+
             // If we don't find a relevant annotation, don't add
             // anything to our results.
             if (!is_null($annotation)) {
@@ -103,15 +122,17 @@ class Model implements ClassSchemaAnnotationInterface
      * developer could mean, and likely they made a mistake, so we break
      * early to avoid unexpected behaviour.)
      *
-     * @return null|PropertySchemaAnnotationInterface
-     * @throws Expore\Exception\Schema\LoadSchemaException If a model class's property has more than one annotation.
+     * @param ReflectionProperty $reflProperty
+     * @param AnnotationReader $annotationReader
+     * @return PropertySchemaAnnotationInterface|null
+     * @throws LoadSchemaException If a model class's property has more than one annotation.
      */
     protected function getPropertyAnnotationFor(
         ReflectionProperty $reflProperty,
         AnnotationReader $annotationReader
-    ) {
-        $allAnnotationsOnProperty = $annotationReader
-            ->getPropertyAnnotations($reflProperty);
+    ): ?PropertySchemaAnnotationInterface {
+        $allAnnotationsOnProperty = $annotationReader->getPropertyAnnotations($reflProperty);
+
         $propertyAnnotations = array_filter(
             $allAnnotationsOnProperty,
             function ($a) {
@@ -119,18 +140,10 @@ class Model implements ClassSchemaAnnotationInterface
             }
         );
 
-        /* A property should have no more than one of the "property
+        /*
+         * A property should have no more than one of the "property
          * annotations" we care about.
          */
-        if (count($propertyAnnotations) < 1) {
-            /* There are no annotations we care about on this property.
-             *
-             * This is okay. There may be some reason for models having
-             * properties which don't correspond to data in our JSON.
-             */
-            return null;
-        }
-
         if (count($propertyAnnotations) > 1) {
             /* There's more than one annotation we could care about on
              * this property.
@@ -146,7 +159,14 @@ class Model implements ClassSchemaAnnotationInterface
             );
         }
 
-        // There's *exactly one* relevant annotation on the property
-        return $propertyAnnotations[0];
+        /*
+         * There's *exactly one* relevant annotation on the property
+         * or
+         * There are no annotations we care about on this property.
+         *
+         * This is okay. There may be some reason for models having
+         * properties which don't correspond to data in our JSON.
+         */
+        return $propertyAnnotations[0] ?? null;
     }
 }

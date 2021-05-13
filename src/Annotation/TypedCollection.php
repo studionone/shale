@@ -1,9 +1,16 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Shale\Annotation;
 
 use Shale\Interfaces\Schema\SchemaInterface;
 use Shale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
-use Shale\Schema;
+use Shale\Schema\Property;
+use Shale\Schema\Type\{
+    Placeholder,
+    TypedArray
+};
 
 /**
  * @Annotation
@@ -49,16 +56,20 @@ class TypedCollection implements PropertySchemaAnnotationInterface
      */
     public $optional = false;
 
-    public function givePropertySchema($nameInModel): SchemaInterface
+    /**
+     * @param string $nameInModel
+     * @return SchemaInterface
+     */
+    public function givePropertySchema(string $nameInModel): SchemaInterface
     {
-        $arrayItemType = new Schema\Type\Placeholder($this->type);
-        $propertyValueType = new Schema\Type\TypedArray($arrayItemType);
+        $arrayItemType = new Placeholder($this->type);
+        $propertyValueType = new TypedArray($arrayItemType);
 
-        return new Schema\Property(
+        return new Property(
             $this->name,
             $nameInModel,
             $propertyValueType,
-            (! $this->optional)
+            !$this->optional
         );
     }
 }

@@ -1,16 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type\Validate;
 
-class BooleanValidate implements Validator
-{
+use Shale\Interfaces\Schema\ValidatorInterface;
 
+/**
+ * Class BooleanValidate
+ *
+ * @package Shale\Schema\Type\Validate
+ */
+class BooleanValidate implements ValidatorInterface
+{
     /**
-     * @param $data
-     * @return bool
+     * @inheritDoc
      */
     public static function validate($data): bool
     {
-        return is_bool($data) ? true: false;
+        return is_bool($data);
     }
 }

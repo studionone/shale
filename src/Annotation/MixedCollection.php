@@ -1,9 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Annotation;
 
 use Shale\Interfaces\Schema\SchemaInterface;
 use Shale\Interfaces\Annotation\PropertySchemaAnnotationInterface;
-use Shale\Schema;
+use Shale\Schema\Type\MixedObjectArray;
+use Shale\Schema\Property;
 
 /**
  * @Annotation
@@ -46,15 +50,19 @@ class MixedCollection implements PropertySchemaAnnotationInterface
      */
     public $optional = false;
 
-    public function givePropertySchema($nameInModel): SchemaInterface
+    /**
+     * @param $nameInModel
+     * @return SchemaInterface
+     */
+    public function givePropertySchema(string $nameInModel): SchemaInterface
     {
-        $valueType = new Schema\Type\MixedObjectArray($this->typeField);
+        $valueType = new MixedObjectArray($this->typeField);
 
-        return new Schema\Property(
+        return new Property(
             $this->name,
             $nameInModel,
             $valueType,
-            (! $this->optional)
+            !$this->optional
         );
     }
 }

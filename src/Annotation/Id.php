@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Annotation;
 
 /**
@@ -6,6 +9,11 @@ namespace Shale\Annotation;
  */
 class Id extends Property
 {
+    /**
+     * Id constructor.
+     *
+     * @param array $values
+     */
     public function __construct(array $values)
     {
         $this->name = 'id';

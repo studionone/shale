@@ -1,21 +1,26 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type\Validate;
 
 use DateTime;
+use Shale\Interfaces\Schema\ValidatorInterface;
 use Shale\Util\DateTimeHelper;
 
-class FlexibleDateTimeValidate implements Validator
+/**
+ * Class FlexibleDateTimeValidate
+ *
+ * @package Shale\Schema\Type\Validate
+ */
+class FlexibleDateTimeValidate implements ValidatorInterface
 {
     /**
-     * Validate a date
-     *
-     * @param $date
-     * @return bool
+     * @inheritDoc
      */
-    public static function validate($date): bool
+    public static function validate($data): bool
     {
-        $dateTime = (new DateTimeHelper)->getDateTime($date);
+        $dateTime = (new DateTimeHelper)->getDateTime($data);
 
         return ($dateTime instanceof DateTime);
     }

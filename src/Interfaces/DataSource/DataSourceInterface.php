@@ -1,9 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Interfaces\DataSource;
 
 use Result\Result;
 
+/**
+ * Interface DataSourceInterface
+ *
+ * @package Shale\Interfaces\DataSource
+ */
 interface DataSourceInterface
 {
     /**

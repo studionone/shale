@@ -1,9 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Interfaces\Annotation;
 
 use Shale\Interfaces\Schema\SchemaInterface;
 
+/**
+ * Interface PropertySchemaAnnotationInterface
+ *
+ * @package Shale\Interfaces\Annotation
+ */
 interface PropertySchemaAnnotationInterface
 {
-    public function givePropertySchema($nameInModel): SchemaInterface;
+    /**
+     * @param string $nameInModel
+     * @return SchemaInterface
+     */
+    public function givePropertySchema(string $nameInModel): SchemaInterface;
 }

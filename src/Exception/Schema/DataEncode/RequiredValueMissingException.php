@@ -1,7 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Exception\Schema\DataEncode;
 
-class RequiredValueIsMissingException extends DataEncodeException
+/**
+ * Class RequiredValueMissingException
+ *
+ * @package Shale\Exception\Schema\DataEncode
+ */
+class RequiredValueMissingException extends DataEncodeException
 {
 }

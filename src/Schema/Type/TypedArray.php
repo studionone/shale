@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
@@ -20,6 +22,11 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
     /** @var SchemaNamedTypeInterface  */
     protected $itemType;
 
+    /**
+     * TypedArray constructor.
+     *
+     * @param SchemaNamedTypeInterface $itemType
+     */
     public function __construct(SchemaNamedTypeInterface $itemType)
     {
         $this->itemType = $itemType;
@@ -47,22 +54,15 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
      * @return array
      * @throws DataWasWrongTypeException
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry)
+    public function getValueFromData($data, TypeRegistry $typeRegistry): array
     {
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             throw new DataWasWrongTypeException('array', $data);
         }
 
-        $contents = [];
-
-        foreach ($data as $itemData) {
-            $item = $this
-                ->itemType
-                ->getValueFromData($itemData, $typeRegistry);
-            $contents[] = $item;
-        }
-
-        return $contents;
+        return array_map(function ($itemData) use ($typeRegistry) {
+            return $this->itemType->getValueFromData($itemData, $typeRegistry);
+        }, $data);
     }
 
     /**
@@ -71,21 +71,14 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
      * @return array
      * @throws ValueWasWrongTypeException
      */
-    public function getDataFromValue($value, TypeRegistry $typeRegistry)
+    public function getDataFromValue($value, TypeRegistry $typeRegistry): array
     {
-        if (! is_array($value)) {
+        if (!is_array($value)) {
             throw new ValueWasWrongTypeException('array', $value);
         }
 
-        $contents = [];
-
-        foreach ($value as $itemValue) {
-            $item = $this
-                ->itemType
-                ->getDataFromValue($itemValue, $typeRegistry);
-            $contents[] = $item;
-        }
-
-        return $contents;
+        return array_map(function ($itemValue) use ($typeRegistry) {
+            return $this->itemType->getDataFromValue($itemValue, $typeRegistry);
+        }, $value);
     }
 }

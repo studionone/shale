@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shale\Schema;
+namespace Shale\Util;
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -16,10 +16,8 @@ use RegexIterator;
  * Shale will likely need something like this for use with
  * $schemaEngine->loadSchemaForModels([..]). The alternative is manually
  * enumerating each model class's FQCN.
- *
- * This is unrelated to the Shale\AnnotationLoader class.
  */
-class FqcnLoader
+class ClassLoader
 {
     /**
      * Given a path to a directory, give the fully-qualified class name
@@ -31,7 +29,7 @@ class FqcnLoader
      *
      * @return string[] An array with each class's FQCN as a string.
      */
-    public function getFqcnsForPath(string $path): array
+    public static function getClassesInPath(string $path): array
     {
         $fqcns = [];
         $allFiles = new RecursiveIteratorIterator(

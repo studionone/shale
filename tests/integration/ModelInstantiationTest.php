@@ -13,6 +13,7 @@ use Shale\Exception\Schema\{
     RequiredPropertyMissingException,
     RequiredPropertyWasNullException
 };
+use Shale\Util\ClassLoader;
 
 class ModelInstantiationTest extends TestCase
 {
@@ -26,9 +27,7 @@ class ModelInstantiationTest extends TestCase
         $typeRegistry = new TypeRegistry($stringPrimitive, $numberPrimitive);
         $annotationReader = new AnnotationReader();
         $this->schemaEngine = new Engine($typeRegistry, $annotationReader);
-
-        $fqcnLoader = new FqcnLoader();
-        $modelFqcns = $fqcnLoader->getFqcnsForPath(__DIR__ . '/../support/Mock/Model/');
+        $modelFqcns = ClassLoader::getClassesInPath(__DIR__ . '/../support/Mock/Model/');
 
         $this->schemaEngine->loadSchemaForModels($modelFqcns);
     }

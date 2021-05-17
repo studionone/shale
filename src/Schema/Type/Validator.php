@@ -29,7 +29,7 @@ trait Validator
     {
         $data = $this->validate($data, __FUNCTION__);
         $parser = $this->getParser();
-        if ($parser === false) {
+        if (!$parser) {
             return $data;
         }
 
@@ -53,7 +53,7 @@ trait Validator
     {
         $value = $this->validate($value, __FUNCTION__);
         $parser = $this->getParser();
-        if ($parser == false) {
+        if (!$parser) {
             return $value;
         }
 
@@ -192,11 +192,11 @@ trait Validator
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function getParser(): bool
+    public function getParser()
     {
-        return false;
+        return null;
     }
 
     /**

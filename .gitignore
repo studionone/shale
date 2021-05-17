@@ -25,6 +25,7 @@ npm-debug.log
 # .gitkeep files which ensures they exist.
 #
 /tests/logs/*
+/tests/.phpunit.result.cache
 
 #
 # Make an exception for .gitkeep files. This lets us use a .gitkeep file

@@ -18,9 +18,8 @@ trait Accessors
     /**
      * @param $method
      * @param $args
-     * @return self
      */
-    public function __call($method, $args): self
+    public function __call($method, $args)
     {
         if (
             !preg_match('/(?P<accessor>set|get)(?P<property>[A-Z][a-zA-Z0-9]*)/', $method, $match)

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
@@ -9,19 +11,25 @@ use Shale\Schema\TypeRegistry;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 
+/**
+ * Trait Validator
+ *
+ * @package Shale\Schema\Type
+ */
 trait Validator
 {
-
     /**
      * @param $data
      * @param TypeRegistry $typeRegistry
-     * @return mixed
+     * @return mixed|string
+     * @throws DataWasWrongTypeException
+     * @throws ValueWasWrongTypeException
      */
     public function getValueFromData($data, TypeRegistry $typeRegistry)
     {
         $data = $this->validate($data, __FUNCTION__);
         $parser = $this->getParser();
-        if ($parser == false) {
+        if ($parser === false) {
             return $data;
         }
 
@@ -37,7 +45,9 @@ trait Validator
     /**
      * @param $value
      * @param TypeRegistry $typeRegistry
-     * @return mixed
+     * @return mixed|string
+     * @throws DataWasWrongTypeException
+     * @throws ValueWasWrongTypeException
      */
     public function getDataFromValue($value, TypeRegistry $typeRegistry)
     {
@@ -122,8 +132,7 @@ trait Validator
 
         // Allow purify tags
         $allowed = $this->getAllowed();
-        $config->set('HTML.AllowedAttributes', $allowed['attributes']);
-        $config->set('HTML.Allowed', $allowed['allowed']);
+        $config->set('HTML.Allowed', implode(',', $allowed));
 
         // Insert new elements not supported by purify
         // check example doc https://github.com/kennberg/php-htmlpurfier-html5/blob/master/htmlpurifier_html5.php
@@ -185,37 +194,52 @@ trait Validator
     /**
      * @return bool
      */
-    public function getParser()
+    public function getParser(): bool
     {
         return false;
     }
 
     /**
-     * This function return the base config for HMLT_purify
+     * This function return the base config for HTML_purify
+     *
      * @return array
      */
-    protected function getAllowed() : array
+    protected function getAllowed(): array
     {
+        $globalAttributes = ['class', 'id', 'title'];
+
         $allowed = [
-            'div, span, p',
-            'figure, figcaption',
-            'h1, h2, h3, h4, h5, h6',
-            'a, img, ul, ol, li',
-            'pre, br, em, blockquote',
+            'div' => ['itemscope', 'itemtype', 'itemprop'],
+            'span' => ['itemscope', 'itemtype', 'itemprop'],
+            'p' => ['itemscope', 'itemtype', 'itemprop'],
+            'figure' => ['data-markdown'],
+            'figcaption' => [],
+            'h1' => [],
+            'h2' => [],
+            'h3' => [],
+            'h4' => [],
+            'h5' => [],
+            'h6' => [],
+            'a' => ['href', 'rel', 'target'],
+            'img' => ['src', 'alt', 'loading', 'srcset', 'sizes'],
+            'ul' => [],
+            'ol' => [],
+            'li' => [],
+            'pre' => [],
+            'br' => [],
+            'em' => [],
+            'blockquote' => [],
+            'iframe' => ['src', 'loading', 'height', 'width', 'frameborder', 'scrolling', 'allowfullscreen', 'data-height', 'data-width', 'data-src'],
         ];
 
-        $attributes = [
-            '*.class, *.id',
-            '*.attr, *.alt, *.data',
-            '*.itemscope, *.itemtype, *.itemprop',
-            'img.src, img.loading, img.srcset, img.sizes, a.href, a.rel, a.target',
-            'iframe.src, iframe.loading, iframe.height, iframe.width, iframe.data-height',
-            'iframe.data-width, iframe.data-src, iframe.frameborder, iframe.scrolling, iframe.allowfullscreen',
-        ];
+        return array_map(function($element, $elementAttributes) use ($globalAttributes) {
+            $mergedAttributes = array_merge($globalAttributes, $elementAttributes);
+            if (empty($mergedAttributes)) {
+                return $element;
+            }
 
-        return [
-            'allowed' => implode(',', $allowed),
-            'attributes' => implode(',', $attributes),
-        ];
+            $attributes = implode('|', $mergedAttributes);
+            return $element . '[' . $attributes . ']';
+        }, array_keys($allowed), $allowed);
     }
 }

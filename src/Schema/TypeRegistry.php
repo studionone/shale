@@ -1,14 +1,31 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Schema;
 
+use Exception;
+use ReflectionClass;
+use ReflectionException;
+use Shale\Schema\Type\BaseObject;
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 
+/**
+ * Class TypeRegistry
+ *
+ * @package Shale\Schema
+ */
 class TypeRegistry
 {
     // Maps type names to schemas
     protected $typesByName = [];
     protected $typesByModelFqcn = [];
 
+    /**
+     * TypeRegistry constructor.
+     *
+     * @param mixed ...$primitiveTypes
+     */
     public function __construct(...$primitiveTypes)
     {
         foreach ($primitiveTypes as $primitiveType) {
@@ -16,43 +33,60 @@ class TypeRegistry
         }
     }
 
+    /**
+     * @param SchemaNamedTypeInterface $schemaType
+     */
     public function registerType(SchemaNamedTypeInterface $schemaType)
     {
         $name = $schemaType->getName();
         $this->typesByName[$name] = $schemaType;
 
         // XXX TODO Make this less ugly
-        if ($schemaType instanceof Type\BaseObject) {
+        if ($schemaType instanceof BaseObject) {
             $this->typesByModelFqcn[$schemaType->getModelFqcn()] = $schemaType;
         }
     }
 
+    /**
+     * @param string $typeName
+     * @return SchemaNamedTypeInterface
+     * @throws Exception
+     */
     public function getType(string $typeName): SchemaNamedTypeInterface
     {
-        if (! array_key_exists($typeName, $this->typesByName)) {
+        if (!array_key_exists($typeName, $this->typesByName)) {
             // XXX TODO This needs its own exception type
-            throw new \Exception('No type with that name');
+            throw new Exception("Type '{$typeName}' not found.");
         }
 
         return $this->typesByName[$typeName];
     }
 
-    public function getTypeByModelFqcn(
-        string $modelFqcn
-    ): SchemaNamedTypeInterface {
+    /**
+     * @param string $modelFqcn
+     * @return SchemaNamedTypeInterface
+     */
+    public function getTypeByModelFqcn(string $modelFqcn): SchemaNamedTypeInterface
+    {
         return $this->typesByModelFqcn[$modelFqcn];
     }
 
-    public function getTypeByModelInstance(
-        $modelInstance
-    ): SchemaNamedTypeInterface {
-
-        $reflClass = new \ReflectionClass($modelInstance);
+    /**
+     * @param $modelInstance
+     * @return SchemaNamedTypeInterface
+     * @throws ReflectionException
+     */
+    public function getTypeByModelInstance($modelInstance): SchemaNamedTypeInterface
+    {
+        $reflClass = new ReflectionClass($modelInstance);
         $modelFqcn = $reflClass->getName();
 
         return $this->getTypeByModelFqcn($modelFqcn);
     }
 
+    /**
+     * @return array
+     */
     public function getAllTypes(): array
     {
         return $this->typesByName;

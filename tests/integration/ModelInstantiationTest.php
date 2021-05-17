@@ -1,57 +1,44 @@
 <?php
 
-use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
+declare(strict_types=1);
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Shale\Schema\Type\StringPrimitive;
 use Shale\Schema\Type\NumberPrimitive;
 use Shale\Schema\TypeRegistry;
 use Shale\Schema\Engine;
 use Shale\Schema\FqcnLoader;
-use Shale\Interfaces\Schema\SchemaTypeInterface;
-use Shale\AnnotationLoader;
+use PHPUnit\Framework\TestCase;
+use Shale\Exception\Schema\{
+    RequiredPropertyMissingException,
+    RequiredPropertyWasNullException
+};
+use Shale\Util\ClassLoader;
 
-class ModelInstantiationTest extends PHPUnit_Framework_TestCase
+class ModelInstantiationTest extends TestCase
 {
-    public $stringPrimitive;
-    public $numberPrimitive;
-    public $typeRegistry;
-    public $annotationReader;
     public $schemaEngine;
-    public $modelFqcns;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->stringPrimitive = new StringPrimitive();
-        $this->numberPrimitive = new NumberPrimitive();
+        $stringPrimitive = new StringPrimitive();
+        $numberPrimitive = new NumberPrimitive();
 
-        $this->typeRegistry = new TypeRegistry(
-            $this->stringPrimitive,
-            $this->numberPrimitive);
+        $typeRegistry = new TypeRegistry($stringPrimitive, $numberPrimitive);
+        $annotationReader = new AnnotationReader();
+        $this->schemaEngine = new Engine($typeRegistry, $annotationReader);
+        $modelFqcns = ClassLoader::getClassesInPath(__DIR__ . '/../support/Mock/Model/');
 
-        $this->annotationReader = new AnnotationReader();
-
-        $this->schemaEngine = new Engine(
-            $this->typeRegistry,
-            $this->annotationReader);
-
-        $annotationLoader = new AnnotationLoader();
-        AnnotationRegistry::registerLoader([$annotationLoader, 'load']);
-
-        $fqcnLoader = new FqcnLoader();
-        $this->modelFqcns = $fqcnLoader->getFqcnsForPath(
-            __DIR__ . '/../support/Mock/Model/');
-
-        $this->schemaEngine->loadSchemaForModels($this->modelFqcns);
+        $this->schemaEngine->loadSchemaForModels($modelFqcns);
     }
 
     public function loadDataFromJsonFile(string $filename)
     {
-        $json_string = file_get_contents(
-            __DIR__ . '/data/' . $filename);
+        $json_string = file_get_contents(__DIR__ . '/data/' . $filename);
         $json_data = json_decode($json_string);
 
         if ($json_data === null) {
-            throw new \Exception('Error parsing JSON from the filesystem');
+            throw new Exception('Error parsing JSON from the filesystem');
         }
 
         return $json_data;
@@ -288,12 +275,9 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
             $modules[0]);
     }
 
-    /**
-     *
-     * @expectedException Shale\Exception\Schema\RequiredPropertyMissingException
-     */
     public function testObjectWithRequiredPropertyNotGiven()
     {
+        $this->expectException(RequiredPropertyMissingException::class);
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_no_id.json');
         $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';
@@ -303,12 +287,9 @@ class ModelInstantiationTest extends PHPUnit_Framework_TestCase
             ->createModelInstanceFromData($articleModelFqcn, $jsonData);
     }
 
-    /**
-     *
-     * @expectedException Shale\Exception\Schema\RequiredPropertyWasNullException
-     */
     public function testObjectWithRequiredPropertySetToNull()
     {
+        $this->expectException(RequiredPropertyWasNullException::class);
         $jsonData = $this->loadDataFromJsonFile(
             'article_module_with_id_set_to_null.json');
         $articleModelFqcn = 'Shale\\Test\\Support\\Mock\\Model\\Module\\ArticleModel';

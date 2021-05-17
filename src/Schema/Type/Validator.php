@@ -200,7 +200,7 @@ trait Validator
     }
 
     /**
-     * This function return the base config for HMLT_purify
+     * This function return the base config for HTML_purify
      *
      * @return array
      */

@@ -25,7 +25,7 @@ class ModelHydrator
      * ModelHydrator constructor.
      *
      * @param SchemaEngine $schemaEngine
-     * @param $modelsPath
+     * @param string|array|null $modelsPath
      * @throws LoadSchemaException
      * @throws ReflectionException
      */

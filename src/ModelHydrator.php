@@ -1,35 +1,63 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale;
 
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
+use ReflectionException;
+use Shale\Exception\Schema\LoadSchemaException;
 use Shale\Schema\Engine as SchemaEngine;
 
+/**
+ * Class ModelHydrator
+ *
+ * @package Shale
+ */
 class ModelHydrator
 {
+    /** @var SchemaEngine */
     protected $schemaEngine;
-    protected $modelsPath;
 
-    public function __construct(SchemaEngine $schemaEngine, string $modelsPath)
+    /**
+     * ModelHydrator constructor.
+     *
+     * @param SchemaEngine $schemaEngine
+     * @param $modelsPath
+     * @throws LoadSchemaException
+     * @throws ReflectionException
+     */
+    public function __construct(SchemaEngine $schemaEngine, $modelsPath)
     {
         $this->schemaEngine = $schemaEngine;
-        $this->modelsPath = $modelsPath;
 
-        $modelFqncs = $this->getModelFqcns();
+        $modelsPath = $modelsPath ?? [];
+        $modelsPath = is_array($modelsPath)
+            ? $modelsPath
+            : [$modelsPath];
+
+        $modelFqncs = [];
+        foreach ($modelsPath as $path) {
+            $paths = $this->getModelFqcns($path);
+            $modelFqncs = array_merge($modelFqncs, $paths);
+        }
+
         $this->schemaEngine->loadSchemaForModels($modelFqncs);
     }
 
-    public function getModelFqcns()
+    /**
+     * @param string $path
+     * @return array
+     */
+    protected function getModelFqcns(string $path): array
     {
-        if (is_null($this->modelsPath)) {
-            return [];
-        }
         $fqcns = [];
         $allFiles = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($this->modelsPath)
+            new RecursiveDirectoryIterator($path)
         );
+
         $phpFiles = new RegexIterator($allFiles, '/\.php$/');
         foreach ($phpFiles as $phpFile) {
             $content = file_get_contents($phpFile->getRealPath());
@@ -51,18 +79,30 @@ class ModelHydrator
                 }
             }
         }
+
         return $fqcns;
     }
 
+    /**
+     * @param string $rootModelFqcn
+     * @param $jsonObjectAsArray
+     * @return mixed
+     */
     public function hydrateFromJson(string $rootModelFqcn, $jsonObjectAsArray)
     {
-        $rootModelInstance = $this->schemaEngine
-                                  ->createModelInstanceFromData($rootModelFqcn, $jsonObjectAsArray);
-        return $rootModelInstance;
+        return $this
+            ->schemaEngine
+            ->createModelInstanceFromData($rootModelFqcn, $jsonObjectAsArray);
     }
+
+    /**
+     * @param $modelInstance
+     * @return mixed
+     */
     public function serializeModelInstanceToJson($modelInstance)
     {
-        return $this->schemaEngine
-                    ->createDataFromModelInstance($modelInstance);
+        return $this
+            ->schemaEngine
+            ->createDataFromModelInstance($modelInstance);
     }
 }

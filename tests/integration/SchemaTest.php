@@ -1,13 +1,13 @@
 <?php
 
-use Doctrine\Common\Annotations\{AnnotationReader, AnnotationRegistry};
-
+use Doctrine\Common\Annotations\AnnotationReader;
 use Shale\Schema\Type\StringPrimitive;
 use Shale\Schema\Type\NumberPrimitive;
 use Shale\Schema\TypeRegistry;
 use Shale\Schema\Engine;
 use Shale\Interfaces\Schema\SchemaTypeInterface;
-use Shale\AnnotationLoader;
+use PHPUnit\Framework\TestCase;
+use Shale\Exception\Schema\LoadSchemaException;
 
 // These are used in assertions for readability
 const IS_REQUIRED = true;
@@ -15,31 +15,18 @@ const IS_OPTIONAL = false;
 const QUOTE_VALUES = true;
 const DO_NOT_QUOTE_VALUES = false;
 
-class SchemaTest extends PHPUnit_Framework_TestCase
+class SchemaTest extends TestCase
 {
-    public $stringPrimitive;
-    public $numberPrimitive;
-    public $typeRegistry;
-    public $annotationReader;
     public $schemaEngine;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->stringPrimitive = new StringPrimitive();
-        $this->numberPrimitive = new NumberPrimitive();
+        $stringPrimitive = new StringPrimitive();
+        $numberPrimitive = new NumberPrimitive();
 
-        $this->typeRegistry = new TypeRegistry(
-            $this->stringPrimitive,
-            $this->numberPrimitive);
-
-        $this->annotationReader = new AnnotationReader();
-
-        $this->schemaEngine = new Engine(
-            $this->typeRegistry,
-            $this->annotationReader);
-
-        $annotationLoader = new AnnotationLoader();
-        AnnotationRegistry::registerLoader([$annotationLoader, 'load']);
+        $typeRegistry = new TypeRegistry($stringPrimitive, $numberPrimitive);
+        $annotationReader = new AnnotationReader();
+        $this->schemaEngine = new Engine($typeRegistry, $annotationReader);
     }
 
     /**
@@ -178,11 +165,10 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      * In practice this means that every class under your project's
      * Model namespace must have a Model annotation, since Shale will
      * try to load every class within that namespace.
-     *
-     * @expectedException Shale\Exception\Schema\LoadSchemaException
      */
     public function testModelMissingModelAnnotation()
     {
+        $this->expectException(LoadSchemaException::class);
         $modelMissingModelAnnotationFqcn =
             'Shale\\Test\\Support\\Mock\\BrokenModel\\ModelMissingModelAnnotation';
         $modelFqcns = [$modelMissingModelAnnotationFqcn];
@@ -200,11 +186,10 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      * "preferred" one, but we decided it's better to break loudly,
      * since multiple annotations is almost certainly a sign that a
      * developer's made a terrible mistake.
-     *
-     * @expectedException Shale\Exception\Schema\LoadSchemaException
      */
     public function testModelWithTooManyModelAnnotations()
     {
+        $this->expectException(LoadSchemaException::class);
         $modelWithTooManyModelAnnotations =
             'Shale\\Test\\Support\\Mock\\BrokenModel\\ModelWithTooManyModelAnnotations';
         $modelFqcns = [$modelWithTooManyModelAnnotations];
@@ -259,11 +244,10 @@ class SchemaTest extends PHPUnit_Framework_TestCase
      * "preferred" one, but we decided it's better to break loudly,
      * since multiple annotations is almost certainly a sign that a
      * developer's made a terrible mistake.
-     *
-     * @expectedException Shale\Exception\Schema\LoadSchemaException
      */
     public function testModelWithTooManyPropertyAnnotations()
     {
+        $this->expectException(LoadSchemaException::class);
         $modelWithTooManyPropertyAnnotations =
             'Shale\\Test\\Support\\Mock\\BrokenModel\\ModelWithTooManyPropertyAnnotations';
         $modelFqcns = [$modelWithTooManyPropertyAnnotations];

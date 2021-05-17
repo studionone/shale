@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Shale\Schema;
 
@@ -7,7 +9,7 @@ use RecursiveDirectoryIterator;
 use RegexIterator;
 
 /**
- * A utitlity class for giving the fully-qualified class name (FQCN) of
+ * A utility class for giving the fully-qualified class name (FQCN) of
  * all classes in a directory.
  *
  * This is just a helper class for convenience, as almost any code using
@@ -35,6 +37,7 @@ class FqcnLoader
         $allFiles = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path)
         );
+
         $phpFiles = new RegexIterator($allFiles, '/\.php$/');
 
         foreach ($phpFiles as $phpFile) {

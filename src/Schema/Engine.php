@@ -1,17 +1,40 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Shale\Schema;
 
+use Exception;
 use ReflectionClass;
+use ReflectionException;
 use Doctrine\Common\Annotations\Reader as AnnotationReader;
 use Shale\Interfaces\Annotation\ClassSchemaAnnotationInterface;
 use Shale\Interfaces\Schema\SchemaTypeWithTypedItemsInterface;
 use Shale\Exception\Schema\LoadSchemaException;
 
+/**
+ * Class Engine
+ *
+ * @package Shale\Schema
+ */
 class Engine
 {
+    /**
+     * @var TypeRegistry
+     */
     protected $typeRegistry;
+
+    /**
+     * @var AnnotationReader
+     */
     protected $annotationReader;
 
+    /**
+     * Engine constructor.
+     *
+     * @param TypeRegistry $typeRegistry
+     * @param AnnotationReader $annotationReader
+     */
     public function __construct(
         TypeRegistry $typeRegistry,
         AnnotationReader $annotationReader
@@ -20,12 +43,17 @@ class Engine
         $this->annotationReader = $annotationReader;
     }
 
+    /**
+     * @param string $classFqcn
+     * @return mixed
+     * @throws LoadSchemaException
+     * @throws ReflectionException
+     */
     protected function getModelAnnotationFor(string $classFqcn)
     {
-        $modelReflClass = new \ReflectionClass($classFqcn);
-        $classAnnotations = $this
-            ->annotationReader
-            ->getClassAnnotations($modelReflClass);
+        $modelReflClass = new ReflectionClass($classFqcn);
+        $classAnnotations = $this->annotationReader->getClassAnnotations($modelReflClass);
+
         $modelAnnotations = array_filter(
             $classAnnotations,
             function ($a) {
@@ -39,15 +67,22 @@ class Engine
                 'The class ' . $classFqcn . ' has no Model annotation'
             );
         }
+
         if (count($modelAnnotations) > 1) {
             throw new LoadSchemaException(
                 'The class ' . $classFqcn . ' has more than one Model ' .
                 'annotation'
             );
         }
+
         return $modelAnnotations[0];
     }
 
+    /**
+     * @param $modelFqcns
+     * @throws LoadSchemaException
+     * @throws ReflectionException
+     */
     public function loadSchemaForModels($modelFqcns)
     {
         // First load all models, so we know the names of all
@@ -113,6 +148,11 @@ class Engine
         // real type references
     }
 
+    /**
+     * @param $schemaObject
+     * @param string $propertyName
+     * @throws Exception
+     */
     protected function replacePossiblePlaceholderAt(
         $schemaObject,
         string $propertyName
@@ -136,11 +176,19 @@ class Engine
         }
     }
 
+    /**
+     * @return array
+     */
     public function getAllModelSchemas(): array
     {
         return $this->typeRegistry->getAllTypes();
     }
 
+    /**
+     * @param string $modelFqcn
+     * @param $objectData
+     * @return mixed
+     */
     public function createModelInstanceFromData(
         string $modelFqcn,
         $objectData
@@ -148,23 +196,24 @@ class Engine
         $objectType = $this->typeRegistry->getTypeByModelFqcn($modelFqcn);
         // We have to provide the TypeRegistry here so MixedObjectArray
         // can look up types
-        $modelInstance = $objectType->getValueFromData(
+        return $objectType->getValueFromData(
             $objectData,
             $this->typeRegistry
         );
-
-        return $modelInstance;
     }
 
+    /**
+     * @param $modelInstance
+     * @return mixed
+     */
     public function createDataFromModelInstance($modelInstance) {
         $schemaType = $this
             ->typeRegistry
             ->getTypeByModelInstance($modelInstance);
 
-        $modelData = $schemaType->getDataFromValue(
+        return $schemaType->getDataFromValue(
             $modelInstance,
-            $this->typeRegistry);
-
-        return $modelData;
+            $this->typeRegistry
+        );
     }
 }

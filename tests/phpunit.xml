@@ -8,14 +8,16 @@
             <directory>integration</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true" addUncoveredFilesFromWhitelist="true">
+    <coverage
+        processUncoveredFiles="true"
+        includeUncoveredFiles="true">
+        <include>
             <directory suffix=".php">../src</directory>
-        </whitelist>
-        <blacklist>
+        </include>
+        <exclude>
             <directory suffix=".php">../vendor</directory>
             <directory suffix=".php">unit</directory>
             <directory suffix=".php">integration</directory>
-        </blacklist>
-    </filter>
+        </exclude>
+    </coverage>
 </phpunit>

@@ -20,7 +20,7 @@
     }
   ],
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=7.2.0",
     "doctrine/annotations": "^1.13",
     "nikita2206/result": ">=0.2",
     "cebe/markdown": "1.2.1"

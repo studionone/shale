@@ -146,9 +146,9 @@ trait Validator
 
             $elements = [
                 ['figure', 'Block', 'Flow', 'Common'],
-                ['figurecaption', 'Inline', 'Flow', 'Common'],
+                ['figcaption', 'Inline', 'Flow', 'Common'],
                 ['div', 'Block', 'Flow', 'Common', $schemaTypes],
-                ['spand', 'Block', 'Flow', 'Common', $schemaTypes],
+                ['span', 'Block', 'Flow', 'Common', $schemaTypes],
                 ['p', 'Block', 'Flow', 'Common', $schemaTypes],
             ];
 

@@ -54,7 +54,7 @@ class TypeRegistry
      */
     public function getType(string $typeName): SchemaNamedTypeInterface
     {
-        if (!array_key_exists($typeName, $this->typesByName)) {
+        if (!isset($this->typesByName[$typeName])) {
             // XXX TODO This needs its own exception type
             throw new Exception("Type '{$typeName}' not found.");
         }

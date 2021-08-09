@@ -26,7 +26,7 @@ class DataEncodeException extends SchemaException
      * @param Throwable|null $previous
      */
     public function __construct(
-        string $message = "",
+        string $message = '',
         $problemValue = null,
         int $code = 0,
         Throwable $previous = null

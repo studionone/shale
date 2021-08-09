@@ -144,7 +144,7 @@ class Engine
             }
         }
 
-        // All of the models' placeholder types should be replaced with
+        // All the models' placeholder types should be replaced with
         // real type references
     }
 
@@ -206,7 +206,8 @@ class Engine
      * @param $modelInstance
      * @return mixed
      */
-    public function createDataFromModelInstance($modelInstance) {
+    public function createDataFromModelInstance($modelInstance)
+    {
         $schemaType = $this
             ->typeRegistry
             ->getTypeByModelInstance($modelInstance);

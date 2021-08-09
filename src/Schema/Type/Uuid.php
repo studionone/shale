@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Shale\Schema\Type;
 
 use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
-use Shale\Schema\Type\Validate\BooleanValidate;
+use Shale\Schema\Type\Validate\UuidValidate;
 
 /**
- * Class BooleanPrimitive
+ * Class Uuid
  *
  * @package Shale\Schema\Type
  */
-class BooleanPrimitive implements SchemaNamedTypeInterface
+class Uuid implements SchemaNamedTypeInterface
 {
     use Validator;
 
@@ -20,7 +20,7 @@ class BooleanPrimitive implements SchemaNamedTypeInterface
      * @var string[]
      */
     protected array $validators = [
-        BooleanValidate::class,
+        UuidValidate::class,
     ];
 
     /**
@@ -28,6 +28,6 @@ class BooleanPrimitive implements SchemaNamedTypeInterface
      */
     public function getName(): string
     {
-        return 'boolean';
+        return 'uuid';
     }
 }

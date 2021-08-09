@@ -22,12 +22,12 @@ class Engine
     /**
      * @var TypeRegistry
      */
-    protected $typeRegistry;
+    protected TypeRegistry $typeRegistry;
 
     /**
      * @var AnnotationReader
      */
-    protected $annotationReader;
+    protected AnnotationReader $annotationReader;
 
     /**
      * Engine constructor.
@@ -44,14 +44,14 @@ class Engine
     }
 
     /**
-     * @param string $classFqcn
+     * @param string $classPath
      * @return mixed
      * @throws LoadSchemaException
      * @throws ReflectionException
      */
-    protected function getModelAnnotationFor(string $classFqcn)
+    protected function getModelAnnotationFor(string $classPath): mixed
     {
-        $modelReflClass = new ReflectionClass($classFqcn);
+        $modelReflClass = new ReflectionClass($classPath);
         $classAnnotations = $this->annotationReader->getClassAnnotations($modelReflClass);
 
         $modelAnnotations = array_filter(
@@ -64,13 +64,13 @@ class Engine
         // A class should have *exactly one* Model annotation
         if (count($modelAnnotations) < 1) {
             throw new LoadSchemaException(
-                'The class ' . $classFqcn . ' has no Model annotation'
+                'The class ' . $classPath . ' has no Model annotation'
             );
         }
 
         if (count($modelAnnotations) > 1) {
             throw new LoadSchemaException(
-                'The class ' . $classFqcn . ' has more than one Model ' .
+                'The class ' . $classPath . ' has more than one Model ' .
                 'annotation'
             );
         }
@@ -83,7 +83,7 @@ class Engine
      * @throws LoadSchemaException
      * @throws ReflectionException
      */
-    public function loadSchemaForModels($modelFqcns)
+    public function loadSchemaForModels($modelFqcns): void
     {
         // First load all models, so we know the names of all
         // models/types within our domain.
@@ -156,7 +156,7 @@ class Engine
     protected function replacePossiblePlaceholderAt(
         $schemaObject,
         string $propertyName
-    ) {
+    ): void {
         // This doesn't use ReflectionMethod, as we may be dealing with
         // magic getters/setters (eg from our Accessors trait, or
         // something else which use ).
@@ -192,7 +192,7 @@ class Engine
     public function createModelInstanceFromData(
         string $modelFqcn,
         $objectData
-    ) {
+    ): mixed {
         $objectType = $this->typeRegistry->getTypeByModelFqcn($modelFqcn);
         // We have to provide the TypeRegistry here so MixedObjectArray
         // can look up types
@@ -205,8 +205,9 @@ class Engine
     /**
      * @param $modelInstance
      * @return mixed
+     * @throws ReflectionException
      */
-    public function createDataFromModelInstance($modelInstance)
+    public function createDataFromModelInstance($modelInstance): mixed
     {
         $schemaType = $this
             ->typeRegistry

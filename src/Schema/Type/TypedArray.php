@@ -20,7 +20,7 @@ use Shale\Schema\TypeRegistry;
 class TypedArray implements SchemaTypeWithTypedItemsInterface
 {
     /** @var SchemaNamedTypeInterface  */
-    protected $itemType;
+    protected SchemaNamedTypeInterface $itemType;
 
     /**
      * TypedArray constructor.
@@ -33,17 +33,17 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
     }
 
     /**
-     * @return SchemaTypeInterface
+     * @return SchemaNamedTypeInterface
      */
-    public function getItemType(): SchemaTypeInterface
+    public function getItemType(): SchemaNamedTypeInterface
     {
         return $this->itemType;
     }
 
     /**
-     * @param SchemaTypeInterface $newItemType
+     * @param SchemaNamedTypeInterface $newItemType
      */
-    public function setItemType(SchemaTypeInterface $newItemType)
+    public function setItemType(SchemaTypeInterface $newItemType): void
     {
         $this->itemType = $newItemType;
     }
@@ -54,7 +54,7 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
      * @return array
      * @throws DataWasWrongTypeException
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry): array
+    public function getValueFromData(mixed $data, TypeRegistry $typeRegistry): array
     {
         if (!is_array($data)) {
             throw new DataWasWrongTypeException('array', $data);
@@ -71,7 +71,7 @@ class TypedArray implements SchemaTypeWithTypedItemsInterface
      * @return array
      * @throws ValueWasWrongTypeException
      */
-    public function getDataFromValue($value, TypeRegistry $typeRegistry): array
+    public function getDataFromValue(mixed $value, TypeRegistry $typeRegistry): array
     {
         if (!is_array($value)) {
             throw new ValueWasWrongTypeException('array', $value);

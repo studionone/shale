@@ -24,16 +24,16 @@ class Property implements SchemaInterface
     use Accessors;
 
     /** @var string */
-    protected $nameInTransport;
+    protected string $nameInTransport;
 
     /** @var string */
-    protected $nameInModel;
+    protected string $nameInModel;
 
     /** @var SchemaTypeInterface */
-    protected $valueType;
+    protected SchemaTypeInterface $valueType;
 
     /** @var bool */
-    protected $required;
+    protected bool $required;
 
     /**
      * Property constructor.
@@ -69,8 +69,9 @@ class Property implements SchemaInterface
 
     /**
      * @param SchemaTypeInterface $newValueType
+     * @return void
      */
-    public function setValueType(SchemaTypeInterface $newValueType)
+    public function setValueType(SchemaTypeInterface $newValueType): void
     {
         $this->valueType = $newValueType;
     }
@@ -93,8 +94,9 @@ class Property implements SchemaInterface
 
     /**
      * @param bool $newRequired
+     * @return void
      */
-    public function setRequired(bool $newRequired)
+    public function setRequired(bool $newRequired): void
     {
         $this->required = $newRequired;
     }
@@ -102,11 +104,11 @@ class Property implements SchemaInterface
     /**
      * @param $data
      * @param TypeRegistry $typeRegistry
-     * @return mixed|null
+     * @return mixed
      * @throws DataDecodeException
      * @throws RequiredPropertyWasNullException
      */
-    public function createValueFromData($data, TypeRegistry $typeRegistry)
+    public function createValueFromData($data, TypeRegistry $typeRegistry): mixed
     {
         // We were given null for our data
         // This may or may not be a problem
@@ -143,11 +145,11 @@ class Property implements SchemaInterface
     /**
      * @param $value
      * @param TypeRegistry $typeRegistry
-     * @return null
+     * @return mixed
      * @throws DataEncodeException
      * @throws RequiredModelPropertyWasNullException
      */
-    public function createDataFromValue($value, TypeRegistry $typeRegistry)
+    public function createDataFromValue($value, TypeRegistry $typeRegistry): mixed
     {
         if (is_null($value)) {
             // We were given null for our value.

@@ -17,11 +17,11 @@ class DateTimeHelper
     /**
      * Get DateTime object from value
      *
-     * @param $date
+     * @param string|int $date
      * @param null|string $format
      * @return DateTime|null
      */
-    public function getDateTime($date, ?string $format = null): ?DateTime
+    public function getDateTime(string|int $date, ?string $format = null): ?DateTime
     {
         if ($this->isTimestamp($date)) {
             return DateTime::createFromFormat('U', (string) $date);
@@ -37,10 +37,10 @@ class DateTimeHelper
     /**
      * Check if value is a timestamp
      *
-     * @param string|integer $date Possible timestamp value
+     * @param string|int $date Possible timestamp value
      * @return bool
      */
-    public function isTimestamp($date): bool
+    public function isTimestamp(string|int $date): bool
     {
         if (!is_numeric($date)) {
             return false;
@@ -57,10 +57,10 @@ class DateTimeHelper
     /**
      * Try to automatically resolve a format
      *
-     * @param $date
+     * @param string|int $date
      * @return DateTime|null
      */
-    public function guessFormat($date): ?DateTime
+    public function guessFormat(string|int $date): ?DateTime
     {
         if (!is_string($date)) {
             return null;
@@ -83,11 +83,11 @@ class DateTimeHelper
     /**
      * Get DateTime object from a specified format
      *
-     * @param $date
+     * @param string|int $date
      * @param null|string $format
      * @return DateTime|null
      */
-    public function dateFromFormat($date, ?string $format = null): ?DateTime
+    public function dateFromFormat(string|int $date, ?string $format = null): ?DateTime
     {
         $formats = !empty($format) ? [$format] : [];
 
@@ -97,11 +97,11 @@ class DateTimeHelper
     /**
      * Get DateTime object from a list of specified formats
      *
-     * @param $date
+     * @param string|int $date
      * @param array $formats List of formats to check
      * @return DateTime|null
      */
-    public function dateFromFormats($date, array $formats = []): ?DateTime
+    public function dateFromFormats(string|int $date, array $formats = []): ?DateTime
     {
         if (!is_string($date)) {
             return null;

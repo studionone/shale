@@ -17,17 +17,17 @@ use Shale\Util\ClassLoader;
 class ModelHydrator
 {
     /** @var SchemaEngine */
-    protected $schemaEngine;
+    protected SchemaEngine $schemaEngine;
 
     /**
      * ModelHydrator constructor.
      *
      * @param SchemaEngine $schemaEngine
-     * @param string|array|null $modelsPath
+     * @param string|array $modelsPath
      * @throws LoadSchemaException
      * @throws ReflectionException
      */
-    public function __construct(SchemaEngine $schemaEngine, $modelsPath)
+    public function __construct(SchemaEngine $schemaEngine, string|array $modelsPath)
     {
         $this->schemaEngine = $schemaEngine;
 
@@ -36,13 +36,13 @@ class ModelHydrator
             ? $modelsPath
             : [$modelsPath];
 
-        $modelFqncs = [];
+        $models = [];
         foreach ($modelsPath as $path) {
             $paths = ClassLoader::getClassesInPath($path);
-            $modelFqncs = array_merge($modelFqncs, $paths);
+            $models = array_merge($models, $paths);
         }
 
-        $this->schemaEngine->loadSchemaForModels($modelFqncs);
+        $this->schemaEngine->loadSchemaForModels($models);
     }
 
     /**
@@ -50,7 +50,7 @@ class ModelHydrator
      * @param $jsonObjectAsArray
      * @return mixed
      */
-    public function hydrateFromJson(string $rootModelFqcn, $jsonObjectAsArray)
+    public function hydrateFromJson(string $rootModelFqcn, $jsonObjectAsArray): mixed
     {
         return $this
             ->schemaEngine
@@ -61,7 +61,7 @@ class ModelHydrator
      * @param $modelInstance
      * @return mixed
      */
-    public function serializeModelInstanceToJson($modelInstance)
+    public function serializeModelInstanceToJson($modelInstance): mixed
     {
         return $this
             ->schemaEngine

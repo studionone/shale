@@ -20,9 +20,9 @@ class Url implements SchemaNamedTypeInterface
     /**
      * @var string[]
      */
-    protected $validators = [
+    protected array $validators = [
         StringValidate::class,
-        UrlSchemeValidate::class
+        UrlSchemeValidate::class,
     ];
 
     /**

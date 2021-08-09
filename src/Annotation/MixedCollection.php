@@ -29,7 +29,7 @@ class MixedCollection implements PropertySchemaAnnotationInterface
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * The name of a property which specifies the model type of each
@@ -39,7 +39,7 @@ class MixedCollection implements PropertySchemaAnnotationInterface
      *
      * @var string
      */
-    public $typeField = null;
+    public string $typeField;
 
     /**
      * If this property is optional on objects in the transport JSON.
@@ -48,10 +48,10 @@ class MixedCollection implements PropertySchemaAnnotationInterface
      *
      * @var bool
      */
-    public $optional = false;
+    public bool $optional = false;
 
     /**
-     * @param $nameInModel
+     * @param string $nameInModel
      * @return SchemaInterface
      */
     public function givePropertySchema(string $nameInModel): SchemaInterface

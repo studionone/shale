@@ -16,7 +16,7 @@ class StringValidate implements ValidatorInterface
     /**
      * @inheritDoc
      */
-    public static function validate($data): bool
+    public static function validate(mixed $data): bool
     {
         return is_string($data);
     }

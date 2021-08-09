@@ -19,13 +19,13 @@ use HTMLPurifier_Config;
 trait Validator
 {
     /**
-     * @param $data
+     * @param mixed $data
      * @param TypeRegistry $typeRegistry
-     * @return mixed|string
+     * @return mixed
      * @throws DataWasWrongTypeException
      * @throws ValueWasWrongTypeException
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry)
+    public function getValueFromData(mixed $data, TypeRegistry $typeRegistry): mixed
     {
         $data = $this->validate($data, __FUNCTION__);
         $parser = $this->getParser();
@@ -43,13 +43,13 @@ trait Validator
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param TypeRegistry $typeRegistry
-     * @return mixed|string
+     * @return mixed
      * @throws DataWasWrongTypeException
      * @throws ValueWasWrongTypeException
      */
-    public function getDataFromValue($value, TypeRegistry $typeRegistry)
+    public function getDataFromValue(mixed $value, TypeRegistry $typeRegistry): mixed
     {
         $value = $this->validate($value, __FUNCTION__);
         $parser = $this->getParser();
@@ -61,13 +61,13 @@ trait Validator
     }
 
     /**
-     * @param $data
-     * @param $method
+     * @param mixed $data
+     * @param string $method
      * @return mixed
      * @throws DataWasWrongTypeException
      * @throws ValueWasWrongTypeException
      */
-    public function validate($data, $method)
+    public function validate(mixed $data, string $method): mixed
     {
         foreach ($this->getValidators() as $validator) {
             if ($validator::validate($data) === false) {
@@ -79,9 +79,9 @@ trait Validator
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getValidators()
+    public function getValidators(): array
     {
         return $this->validators;
     }
@@ -89,37 +89,32 @@ trait Validator
     /**
      * @return mixed
      */
-    public function getExceptionMessage()
+    public function getExceptionMessage(): mixed
     {
-        return $this->exceptionMessage;
+        return $this->exceptionMessage ?? null;
     }
 
     /**
-     * @param $dataValue
-     * @param $method
+     * @param mixed $dataValue
+     * @param string $method
      * @return Exception|ValueWasWrongTypeException|DataWasWrongTypeException
      */
-    protected function getException($dataValue, $method)
+    protected function getException(mixed $dataValue, string $method): Exception|ValueWasWrongTypeException|DataWasWrongTypeException
     {
         $message = $this->getExceptionMessage();
-        switch ($method) {
-            case 'getValueFromData':
-                return new DataWasWrongTypeException($message, $dataValue);
-                break;
-            case 'getDataFromValue':
-                return new ValueWasWrongTypeException($message, $dataValue);
-                break;
-            default:
-                return new Exception('Invalid method');
-                break;
-        }
+
+        return match ($method) {
+            'getValueFromData' => new DataWasWrongTypeException($message, $dataValue),
+            'getDataFromValue' => new ValueWasWrongTypeException($message, $dataValue),
+            default => new Exception('Invalid method'),
+        };
     }
 
     /**
      * create htmlpurifier xss for markdown
      * @return object
      */
-    public function getPurifier()
+    public function getPurifier(): object
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.Doctype', 'HTML 4.01 Transitional');
@@ -194,7 +189,7 @@ trait Validator
     /**
      * @return mixed
      */
-    public function getParser()
+    public function getParser(): mixed
     {
         return null;
     }

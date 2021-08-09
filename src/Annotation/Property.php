@@ -27,7 +27,7 @@ class Property implements PropertySchemaAnnotationInterface
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * The type of this property in the transport JSON.
@@ -37,7 +37,7 @@ class Property implements PropertySchemaAnnotationInterface
      *
      * @var string
      */
-    public $type;
+    public string $type;
 
     /**
      * If this property is optional on objects in the transport JSON.
@@ -46,7 +46,7 @@ class Property implements PropertySchemaAnnotationInterface
      *
      * @var bool
      */
-    public $optional = false;
+    public bool $optional = false;
 
     /**
      * @param string $nameInModel

@@ -21,13 +21,13 @@ use stdClass;
 class BaseObject implements SchemaNamedTypeInterface
 {
     /** @var string */
-    protected $name;
+    protected string $name;
 
     /** @var string */
-    protected $modelFqcn;
+    protected string $modelFqcn;
 
     /** @var array */
-    protected $properties;
+    protected array $properties;
 
     /**
      * BaseObject constructor.
@@ -100,12 +100,12 @@ class BaseObject implements SchemaNamedTypeInterface
     /**
      * @param mixed $data
      * @param TypeRegistry $typeRegistry
-     * @return mixed|object
+     * @return object
      * @throws DataWasWrongTypeException
      * @throws RequiredPropertyMissingException
      * @throws ReflectionException
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry)
+    public function getValueFromData(mixed $data, TypeRegistry $typeRegistry): object
     {
         if (!$data instanceof stdClass) {
             throw new DataWasWrongTypeException('object (stdclass)', $data);

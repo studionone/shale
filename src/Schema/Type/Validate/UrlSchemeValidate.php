@@ -16,7 +16,7 @@ class UrlSchemeValidate implements ValidatorInterface
     /**
      * @inheritDoc
      */
-    public static function validate($data): bool
+    public static function validate(mixed $data): bool
     {
         return preg_match('/^(http|https)://', $data) !== false;
     }

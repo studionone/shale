@@ -16,7 +16,7 @@ use DomainException;
 class Placeholder implements SchemaNamedTypeInterface
 {
     /** @var string */
-    protected $typeName;
+    protected string $typeName;
 
     /**
      * Placeholder constructor.
@@ -39,9 +39,9 @@ class Placeholder implements SchemaNamedTypeInterface
     /**
      * @param mixed $data
      * @param TypeRegistry $typeRegistry
-     * @return mixed|void
+     * @return mixed
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry)
+    public function getValueFromData(mixed $data, TypeRegistry $typeRegistry): mixed
     {
         throw new DomainException('This class should not exist after Schema has been mapped');
     }
@@ -50,7 +50,7 @@ class Placeholder implements SchemaNamedTypeInterface
      * @param $value
      * @param TypeRegistry $typeRegistry
      */
-    public function getDataFromValue($value, TypeRegistry $typeRegistry)
+    public function getDataFromValue($value, TypeRegistry $typeRegistry): mixed
     {
         throw new DomainException('This class should not exist after Schema has been mapped');
     }

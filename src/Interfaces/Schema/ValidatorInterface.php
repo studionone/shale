@@ -12,8 +12,8 @@ namespace Shale\Interfaces\Schema;
 interface ValidatorInterface
 {
     /**
-     * @param $data
+     * @param mixed $data
      * @return bool
      */
-    public static function validate($data): bool;
+    public static function validate(mixed $data): bool;
 }

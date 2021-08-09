@@ -19,8 +19,8 @@ class NumberPrimitive implements SchemaNamedTypeInterface
     /**
      * @var string[]
      */
-    protected $validators = [
-        NumberValidate::class
+    protected array $validators = [
+        NumberValidate::class,
     ];
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shale\Schema\Type;
 
+use ReflectionException;
 use Shale\Exception\Schema\DataWasWrongTypeException;
 use Shale\Exception\Schema\DataEncode\ValueWasWrongTypeException;
 use Shale\Interfaces\Schema\SchemaTypeInterface;
@@ -19,7 +20,7 @@ class MixedObjectArray implements SchemaTypeInterface
     use Accessors;
 
     /** @var string */
-    protected $typeFieldName;
+    protected string $typeFieldName;
 
     /**
      * MixedObjectArray constructor.
@@ -37,7 +38,7 @@ class MixedObjectArray implements SchemaTypeInterface
      * @return array
      * @throws DataWasWrongTypeException
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry): array
+    public function getValueFromData(mixed $data, TypeRegistry $typeRegistry): array
     {
         if (!is_array($data)) {
             throw new DataWasWrongTypeException('array', $data);
@@ -55,12 +56,13 @@ class MixedObjectArray implements SchemaTypeInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param TypeRegistry $typeRegistry
      * @return array
      * @throws ValueWasWrongTypeException
+     * @throws ReflectionException
      */
-    public function getDataFromValue($value, TypeRegistry $typeRegistry): array
+    public function getDataFromValue(mixed $value, TypeRegistry $typeRegistry): array
     {
         if (!is_array($value)) {
             throw new ValueWasWrongTypeException('array', $value);

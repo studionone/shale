@@ -19,8 +19,8 @@ class StringPrimitive implements SchemaNamedTypeInterface
     /**
      * @var string[]
      */
-    protected $validators = [
-        StringValidate::class
+    protected array $validators = [
+        StringValidate::class,
     ];
 
     /**

@@ -14,8 +14,8 @@ use Shale\Exception\Schema\SchemaException;
  */
 class DataEncodeException extends SchemaException
 {
-    /** @var mixed|null */
-    public $problemValue;
+    /** @var mixed */
+    public mixed $problemValue;
 
     /**
      * DataEncodeException constructor.
@@ -26,7 +26,7 @@ class DataEncodeException extends SchemaException
      * @param Throwable|null $previous
      */
     public function __construct(
-        string $message = "",
+        string $message = '',
         $problemValue = null,
         int $code = 0,
         Throwable $previous = null
@@ -37,17 +37,18 @@ class DataEncodeException extends SchemaException
     }
 
     /**
-     * @return mixed|null
+     * @return mixed
      */
-    public function getProblemValue()
+    public function getProblemValue(): mixed
     {
         return $this->problemValue;
     }
 
     /**
      * @param $problemValue
+     * @return void
      */
-    public function setProblemValue($problemValue)
+    public function setProblemValue($problemValue): void
     {
         $this->problemValue = $problemValue;
     }

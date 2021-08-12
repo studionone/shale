@@ -19,7 +19,7 @@ class FlexibleDateTime implements SchemaNamedTypeInterface
     /**
      * @var string[]
      */
-    protected $validators = [
+    protected array $validators = [
         FlexibleDateTimeValidate::class,
     ];
 

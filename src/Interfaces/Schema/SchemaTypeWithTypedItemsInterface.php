@@ -18,7 +18,7 @@ interface SchemaTypeWithTypedItemsInterface extends SchemaTypeInterface
 
     /**
      * @param SchemaTypeInterface $newItemType
-     * @return mixed
+     * @return void
      */
-    public function setItemType(SchemaTypeInterface $newItemType);
+    public function setItemType(SchemaTypeInterface $newItemType): void;
 }

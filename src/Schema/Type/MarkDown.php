@@ -27,7 +27,7 @@ class MarkDown extends StringPrimitive implements SchemaNamedTypeInterface
     /**
      * @return MarkdownParser
      */
-    public function getParser()
+    public function getParser(): MarkdownParser
     {
         return new MarkdownExtraParser();
     }

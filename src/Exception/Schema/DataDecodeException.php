@@ -13,8 +13,8 @@ use Throwable;
  */
 class DataDecodeException extends SchemaException
 {
-    /** @var mixed|null */
-    public $problemData;
+    /** @var mixed */
+    public mixed $problemData;
 
     /**
      * DataDecodeException constructor.
@@ -36,17 +36,18 @@ class DataDecodeException extends SchemaException
     }
 
     /**
-     * @return mixed|null
+     * @return mixed
      */
-    public function getProblemData()
+    public function getProblemData(): mixed
     {
         return $this->problemData;
     }
 
     /**
      * @param $problemData
+     * @return void
      */
-    public function setProblemData($problemData)
+    public function setProblemData($problemData): void
     {
         $this->problemData = $problemData;
     }

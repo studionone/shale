@@ -18,5 +18,5 @@ interface SchemaTypeInterface
      * @param TypeRegistry $typeRegistry
      * @return mixed
      */
-    public function getValueFromData($data, TypeRegistry $typeRegistry);
+    public function getValueFromData(mixed $data, TypeRegistry $typeRegistry): mixed;
 }

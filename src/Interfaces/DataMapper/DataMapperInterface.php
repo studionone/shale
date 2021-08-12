@@ -12,8 +12,8 @@ namespace Shale\Interfaces\DataMapper;
 interface DataMapperInterface
 {
     /**
-     * @param $data
+     * @param mixed $data
      * @return mixed
      */
-    public function map($data);
+    public function map(mixed $data): mixed;
 }

@@ -15,12 +15,12 @@ use Shale\Interfaces\Schema\SchemaTypeInterface;
 interface ClassSchemaAnnotationInterface
 {
     /**
-     * @param string $annotatedClassFqcn
+     * @param string $annotatedClassPath
      * @param AnnotationReader $annotationReader
      * @return SchemaTypeInterface
      */
     public function giveClassSchema(
-        string $annotatedClassFqcn,
+        string $annotatedClassPath,
         AnnotationReader $annotationReader
     ): SchemaTypeInterface;
 }

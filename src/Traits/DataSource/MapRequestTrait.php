@@ -21,7 +21,7 @@ trait MapRequestTrait
      */
     public function mapResult(DataMapperInterface $dataMapper, Result $result): Result
     {
-        $result = $result->remapOk(
+        return $result->remapOk(
             function ($result) use ($dataMapper) {
                 return [
                     'status' => $result['status'],
@@ -29,7 +29,5 @@ trait MapRequestTrait
                 ];
             }
         );
-        
-        return $result;
     }
 }

@@ -20,40 +20,45 @@ use Shale\Schema\Type\BaseObject;
  */
 class Model implements ClassSchemaAnnotationInterface
 {
-    public $name;
+    /** @var string */
+    public string $name;
 
     /**
-     * @param string $annotatedClassFqcn
+     * @param string $annotatedClassPath
      * @param AnnotationReader $annotationReader
      * @return SchemaTypeInterface
+     * @throws LoadSchemaException
+     * @throws ReflectionException
      */
     public function giveClassSchema(
-        string $annotatedClassFqcn,
+        string $annotatedClassPath,
         AnnotationReader $annotationReader
     ): SchemaTypeInterface {
         $propertySchemas = $this->getPropertySchemas(
-            $annotatedClassFqcn,
+            $annotatedClassPath,
             $annotationReader
         );
 
         return new BaseObject(
             $this->name,
-            $annotatedClassFqcn,
+            $annotatedClassPath,
             $propertySchemas
         );
     }
 
     /**
-     * @param string $annotatedClassFqcn
+     * @param string $annotatedClassPath
      * @param AnnotationReader $annotationReader
      * @return array
+     * @throws LoadSchemaException
+     * @throws ReflectionException
      */
     protected function getPropertySchemas(
-        string $annotatedClassFqcn,
+        string $annotatedClassPath,
         AnnotationReader $annotationReader
     ): array {
         $propertyNamesToAnnotations = $this->getPropertyAnnotations(
-            $annotatedClassFqcn,
+            $annotatedClassPath,
             $annotationReader
         );
 
@@ -72,29 +77,30 @@ class Model implements ClassSchemaAnnotationInterface
      * Each annotation object will be something which implements
      * PropertySchemaAnnotationInterface.
      *
-     * @param string $annotatedClassFqcn
+     * @param string $annotatedClassPath
      * @param AnnotationReader $annotationReader
      * @return array
+     * @throws LoadSchemaException
      * @throws ReflectionException
      */
     protected function getPropertyAnnotations(
-        string $annotatedClassFqcn,
+        string $annotatedClassPath,
         AnnotationReader $annotationReader
     ): array {
-        $reflAnnotatedClass = new ReflectionClass($annotatedClassFqcn);
-        $reflProperties = $reflAnnotatedClass->getProperties();
+        $annotatedClass = new ReflectionClass($annotatedClassPath);
+        $properties = $annotatedClass->getProperties();
 
         $propertyNamesToAnnotations = [];
-        foreach ($reflProperties as $reflProperty) {
+        foreach ($properties as $property) {
             $annotation = $this->getPropertyAnnotationFor(
-                $reflProperty,
+                $property,
                 $annotationReader
             );
 
             // If we don't find a relevant annotation, don't add
             // anything to our results.
             if (!is_null($annotation)) {
-                $propertyName = $reflProperty->getName();
+                $propertyName = $property->getName();
                 $propertyNamesToAnnotations[$propertyName] = $annotation;
             }
         }
@@ -122,16 +128,16 @@ class Model implements ClassSchemaAnnotationInterface
      * developer could mean, and likely they made a mistake, so we break
      * early to avoid unexpected behaviour.)
      *
-     * @param ReflectionProperty $reflProperty
+     * @param ReflectionProperty $property
      * @param AnnotationReader $annotationReader
      * @return PropertySchemaAnnotationInterface|null
      * @throws LoadSchemaException If a model class's property has more than one annotation.
      */
     protected function getPropertyAnnotationFor(
-        ReflectionProperty $reflProperty,
+        ReflectionProperty $property,
         AnnotationReader $annotationReader
     ): ?PropertySchemaAnnotationInterface {
-        $allAnnotationsOnProperty = $annotationReader->getPropertyAnnotations($reflProperty);
+        $allAnnotationsOnProperty = $annotationReader->getPropertyAnnotations($property);
 
         $propertyAnnotations = array_filter(
             $allAnnotationsOnProperty,
@@ -153,8 +159,8 @@ class Model implements ClassSchemaAnnotationInterface
              * break early to avoid unexpected behaviour.
              */
             throw new LoadSchemaException(
-                'The property "' . $reflProperty->name . '" on class ' .
-                $reflProperty->class . ' has more than one relevant ' .
+                'The property "' . $property->name . '" on class ' .
+                $property->class . ' has more than one relevant ' .
                 'property annotation.'
             );
         }

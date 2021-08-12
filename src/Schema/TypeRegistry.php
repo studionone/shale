@@ -18,8 +18,8 @@ use Shale\Interfaces\Schema\SchemaNamedTypeInterface;
 class TypeRegistry
 {
     // Maps type names to schemas
-    protected $typesByName = [];
-    protected $typesByModelFqcn = [];
+    protected array $typesByName = [];
+    protected array $typesByModelFqcn = [];
 
     /**
      * TypeRegistry constructor.
@@ -35,8 +35,9 @@ class TypeRegistry
 
     /**
      * @param SchemaNamedTypeInterface $schemaType
+     * @return void
      */
-    public function registerType(SchemaNamedTypeInterface $schemaType)
+    public function registerType(SchemaNamedTypeInterface $schemaType): void
     {
         $name = $schemaType->getName();
         $this->typesByName[$name] = $schemaType;
@@ -54,7 +55,7 @@ class TypeRegistry
      */
     public function getType(string $typeName): SchemaNamedTypeInterface
     {
-        if (!array_key_exists($typeName, $this->typesByName)) {
+        if (!isset($this->typesByName[$typeName])) {
             // XXX TODO This needs its own exception type
             throw new Exception("Type '{$typeName}' not found.");
         }

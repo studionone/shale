@@ -33,7 +33,7 @@ class TypedCollection implements PropertySchemaAnnotationInterface
      *
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * The type of each value in the collection.
@@ -45,7 +45,7 @@ class TypedCollection implements PropertySchemaAnnotationInterface
      *
      * @var string
      */
-    public $type;
+    public string $type;
 
     /**
      * If this property is optional on objects in the transport JSON.
@@ -54,7 +54,7 @@ class TypedCollection implements PropertySchemaAnnotationInterface
      *
      * @var bool
      */
-    public $optional = false;
+    public bool $optional = false;
 
     /**
      * @param string $nameInModel

@@ -21,7 +21,7 @@ abstract class ShortcodeMarkdown extends MarkdownExtra
      * @param String $data
      * @return null|string
      */
-    public function shortcodeHandler(string $data)
+    public function shortcodeHandler(string $data): ?string
     {
         preg_match_all("/([^\s]+)='([^']+)'/i", $data, $shortcodeMatch, PREG_SET_ORDER);
 
@@ -32,15 +32,12 @@ abstract class ShortcodeMarkdown extends MarkdownExtra
 
         $type = $attributes['type'] ?? '';
 
-        switch ($type) {
-            case 'youtube':
-                return $this->embeddedYoutube($attributes);
-            case 'google-maps':
-                return $this->embeddedGoogle($attributes);
-            case 'thinglink':
-                return $this->embeddedThingLink($attributes);
-        }
-        return null;
+        return match ($type) {
+            'youtube' => $this->embeddedYoutube($attributes),
+            'google-maps' => $this->embeddedGoogle($attributes),
+            'thinglink' => $this->embeddedThingLink($attributes),
+            default => null,
+        };
     }
 
     /**

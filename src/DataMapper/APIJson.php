@@ -15,10 +15,10 @@ use Shale\ModelHydrator;
 class APIJson implements DataMapperInterface
 {
     /** @var ModelHydrator */
-    protected $modelHydrator;
+    protected ModelHydrator $modelHydrator;
 
     /** @var string */
-    protected $responseModelFqcn;
+    protected string $responseModelFqcn;
 
     /**
      * APIJson constructor.
@@ -35,10 +35,10 @@ class APIJson implements DataMapperInterface
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      * @return mixed
      */
-    public function map($data)
+    public function map(mixed $data): mixed
     {
         return $this->modelHydrator->hydrateFromJson($this->responseModelFqcn, $data);
     }

@@ -1,7 +1,7 @@
 {
   "name": "studionone/shale",
   "description": "A PHP schema system for (de)serializing JSON and other transports",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "keywords": ["serialization", "json"],
   "homepage": "https://github.com/studionone/shale",
   "license": "MIT",
@@ -20,7 +20,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0.0",
+    "php": ">=8.0",
     "doctrine/annotations": "^1.13",
     "nikita2206/result": ">=0.2",
     "cebe/markdown": "1.2.1",
